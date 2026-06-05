@@ -1,0 +1,20 @@
+# Large local extracts (not needed for the live website)
+assets/cleo-extract/
+assets/cleo-ref/
+assets/photos-extract/
+
+# Archives and duplicates
+*.zip
+*.rar
+*.7z
+files (7)/
+
+# Build / tooling
+**/build/
+**/.gradle/
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

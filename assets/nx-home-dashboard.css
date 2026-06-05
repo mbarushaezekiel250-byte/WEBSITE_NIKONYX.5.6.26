@@ -1,0 +1,64 @@
+/* Home dashboard clone for feature-demo final step (matches welcoming screen) */
+.fp-story-home{
+  flex:1;min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;background:#fff;
+}
+.fp-story-home .p-status{background:#050D1F;display:flex;justify-content:space-between;align-items:center;padding:6px 12px 4px;font-size:9px;font-weight:700;color:#fff}
+.fp-story-home .p-sr{display:flex;align-items:center;gap:4px;font-size:8px}
+.fp-story-home .p-bat{background:#fff;color:#000;border-radius:2px;padding:1px 3px;font-size:7px;font-weight:800}
+.fp-story-home .p-header{
+  background:
+    repeating-conic-gradient(from -90deg at 50% 42%, transparent 0deg, transparent 7.5deg, rgba(147,197,253,0.055) 7.5deg, rgba(147,197,253,0.055) 8.5deg),
+    radial-gradient(ellipse 95% 110% at 50% -5%, rgba(96,165,250,0.38) 0%, rgba(30,64,175,0.22) 38%, transparent 68%),
+    linear-gradient(180deg,#050c1c 0%,#0a1830 55%,#0d1f40 100%);
+  padding:6px 12px 0;
+}
+.fp-story-home .p-bar{display:flex;justify-content:space-between;align-items:center;padding-bottom:8px}
+.fp-story-home .p-ico{width:28px;height:28px;border-radius:50%;background:rgba(6,12,26,0.72);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:#fff}
+.fp-story-home .p-ico svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.fp-story-home .p-nx-logo{width:34px;height:34px;border-radius:50%;overflow:hidden;border:1.5px solid rgba(191,219,254,0.45);box-shadow:0 0 12px rgba(59,130,246,0.5)}
+.fp-story-home .nx-mark{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.fp-story-home .p-bar-r{display:flex;gap:6px}
+.fp-story-home .p-header-curve{height:12px;margin:0 -12px;position:relative}
+.fp-story-home .p-header-curve::before{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,rgba(224,242,254,0.98) 50%,transparent);border-radius:0 0 50% 50%/0 0 100% 100%}
+.fp-story-home .p-body{flex:1;overflow:hidden;background:#fff}
+.fp-story-home .p-profile{padding:10px 8px 4px;text-align:center}
+.fp-story-home .p-name{font-size:18px;font-weight:800;color:#0D1F40;margin-bottom:2px}
+.fp-story-home .p-usub{font-size:8px;color:#64748b;margin-bottom:8px}
+.fp-story-home .p-avatar{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#9333ea,#7c3aed);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff}
+.fp-story-home .p-ai{margin:6px 8px;background:linear-gradient(135deg,#050d1f,#0f2249);border-radius:999px;padding:6px 8px;display:flex;align-items:center;gap:6px;border:1px solid rgba(59,130,246,0.25)}
+.fp-story-home .p-aid{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#1D4ED8);font-size:6px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
+.fp-story-home .p-aiph{font-size:7px;color:rgba(255,255,255,0.88);flex:1}
+.fp-story-home .p-aiph strong{color:#fff}
+.fp-story-home .p-mic{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#2563EB);font-size:9px;color:#fff;display:flex;align-items:center;justify-content:center}
+.fp-story-home .p-chips{display:flex;gap:4px;padding:4px 8px;overflow:hidden}
+.fp-story-home .p-chip{font-size:7px;font-weight:700;padding:3px 8px;border-radius:999px;border:1px solid #bfdbfe;color:#1e40af;white-space:nowrap}
+.fp-story-home .p-chip.on{background:#3B82F6;color:#fff;border-color:#3B82F6}
+.fp-story-home .p-quick-row{display:flex;gap:4px;padding:0 8px 6px}
+.fp-story-home .p-qcard{flex:1;min-width:72px;background:linear-gradient(145deg,#0c2060,#1a3a8a);border-radius:8px;padding:6px;display:flex;align-items:center;gap:3px}
+.fp-story-home .p-qic{font-size:9px}
+.fp-story-home .p-qlb{font-size:6px;font-weight:700;color:#fff;flex:1;line-height:1.2}
+.fp-story-home .p-qarr{font-size:8px;color:rgba(255,255,255,0.55)}
+.fp-story-home .p-feed{display:flex;gap:5px;padding:0 8px 8px;overflow:hidden;position:relative}
+.fp-story-home .p-feed-col{flex:0 0 60px}
+.fp-story-home .p-feed-hd{font-size:6px;font-weight:800;color:#0D1F40;text-align:center;margin-bottom:3px}
+.fp-story-home .p-feed-card{border:1.5px solid #93c5fd;border-radius:8px;overflow:hidden}
+.fp-story-home .p-feed-img{height:58px}
+.fp-story-home .p-feed-img--suit{background:linear-gradient(180deg,#e8eef8,#dbeafe)}
+.fp-story-home .p-feed-img--empty{background:linear-gradient(180deg,#eff6ff,#dbeafe)}
+.fp-story-home .p-feed-img--bag{background:linear-gradient(180deg,#f1f5f9,#e2e8f0)}
+.fp-story-home .p-feed-title{font-size:5.5px;font-weight:800;color:#0D1F40;padding:3px}
+.fp-story-home .p-feed-sub{font-size:5px;color:#64748b;padding:0 3px 3px}
+.fp-story-home .p-feed-dots{display:flex;justify-content:center;gap:2px;padding-bottom:3px}
+.fp-story-home .p-feed-dots i{width:3px;height:3px;border-radius:50%;background:#cbd5e1;font-style:normal;display:block}
+.fp-story-home .p-feed-dots i.on{background:#3B82F6}
+.fp-story-home .p-fab{position:absolute;right:0;bottom:14px;width:26px;height:26px;border-radius:50%;background:linear-gradient(145deg,#3B82F6,#2563EB);border:2px solid #fff;font-size:12px;display:flex;align-items:center;justify-content:center;z-index:2}
+.fp-story-home .p-bnav{background:linear-gradient(180deg,#dce8f5,#f7fafc);border-top:1px solid #b8cce0;display:flex}
+.fp-story-home .p-bn{flex:1;display:flex;flex-direction:column;align-items:center;padding:4px 2px;border-right:1px solid rgba(148,163,184,0.38)}
+.fp-story-home .p-bni{width:16px;height:16px;color:#2f3f52;display:flex;align-items:center;justify-content:center}
+.fp-story-home .p-bni svg{width:100%;height:100%}
+.fp-story-home .p-bnl{font-size:5px;font-weight:600;color:#2f3f52}
+.fp-story-home .p-bn.on .p-bnl{color:#1e40af;font-weight:700}
+.fp-story-home .p-home-ring{width:32px;height:32px;border-radius:50%;overflow:hidden;margin:-8px auto 0;box-shadow:0 0 12px rgba(37,99,235,0.55)}
+.fp-story-frame--home .fp-story-bar{background:linear-gradient(180deg,#0a1830,#0d1f40)}
+.fp-story-frame--home .nx-point,.fp-story-frame--home .nx-final-badge{display:none!important}

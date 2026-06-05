@@ -1,0 +1,157 @@
+/* Yellow tap-guide hotspots — feature & app demos only (not welcoming screen) */
+
+.cap-slide .fp-story-view,
+.phone--feat .fp-story-view{
+  position:absolute;inset:0;background:#fff;display:block;
+}
+.cap-slide .fp-story-frame,
+.phone--feat .fp-story-frame{
+  position:absolute;inset:0;opacity:0;visibility:hidden;
+  transition:opacity .4s ease;display:flex;flex-direction:column;
+}
+.cap-slide .fp-story-frame.active,
+.phone--feat .fp-story-frame.active{opacity:1;visibility:visible;z-index:1}
+.cap-slide .fp-story-media,
+.phone--feat .fp-story-media{flex:1;min-height:0;position:relative}
+.cap-slide .fp-story-bar,
+.phone--feat .fp-story-bar{
+  flex-shrink:0;padding:10px 12px 12px;
+  background:linear-gradient(180deg,#0a1830,#0d1f40);color:#fff;
+}
+.cap-slide .fp-story-progress,
+.phone--feat .fp-story-progress{display:flex;gap:4px;margin-bottom:8px}
+.cap-slide .fp-story-progress i,
+.phone--feat .fp-story-progress i{
+  flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.28);
+  transition:background .25s;
+}
+.cap-slide .fp-story-progress i.on,
+.phone--feat .fp-story-progress i.on{background:#ffd600}
+.cap-slide .fp-story-step,
+.phone--feat .fp-story-step{
+  font-size:7px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  color:#ffd600;margin-bottom:3px;
+}
+.cap-slide .fp-story-title,
+.phone--feat .fp-story-title{font-size:10px;font-weight:700;line-height:1.35}
+.cap-slide .fp-story-tags,
+.phone--feat .fp-story-tags{
+  display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px;
+}
+.cap-slide .fp-story-tags span,
+.phone--feat .fp-story-tags span{
+  font-size:8px;font-weight:700;padding:5px 9px;border-radius:999px;
+  background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);
+}
+
+.nx-scene{
+  position:absolute;inset:0;background:#0d1f40;
+}
+.nx-scene > img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;display:block;
+}
+.nx-chrome{
+  position:absolute;left:0;right:0;z-index:2;pointer-events:none;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 10px;font-size:7px;font-weight:700;color:rgba(255,255,255,0.9);
+  background:linear-gradient(180deg,rgba(10,24,48,0.92),rgba(10,24,48,0.55));
+}
+.nx-chrome--top{top:0}
+.nx-chrome--btm{
+  top:auto;bottom:0;justify-content:space-around;
+  background:linear-gradient(0deg,rgba(10,24,48,0.95),rgba(10,24,48,0.5));
+  padding:10px 6px 12px;
+}
+.nx-chrome--btm span{opacity:.55}
+.nx-chrome--btm span.on{color:#ffd600;opacity:1}
+
+.nx-point{
+  position:absolute;z-index:4;width:11px;height:11px;
+  margin:-5.5px 0 0 -5.5px;pointer-events:none;
+}
+.nx-point--lg{width:13px;height:13px;margin:-6.5px 0 0 -6.5px}
+.nx-point::before{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:#ffd600;
+  box-shadow:0 0 0 2px rgba(255,214,0,0.4),0 0 8px rgba(255,214,0,0.55);
+  animation:nxPointBeat 1.2s ease-in-out infinite;
+}
+.nx-point::after{
+  content:'';position:absolute;inset:-5px;border-radius:50%;
+  border:1.5px solid rgba(255,214,0,0.75);
+  animation:nxPointRipple 1.2s ease-out infinite;
+}
+@keyframes nxPointBeat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+}
+@keyframes nxPointRipple{
+  0%{transform:scale(0.75);opacity:1}
+  100%{transform:scale(1.35);opacity:0}
+}
+.nx-point-tag{
+  position:absolute;left:50%;top:calc(100% + 4px);transform:translateX(-50%);
+  font-style:normal;font-size:6px;font-weight:800;letter-spacing:.15px;
+  color:#0d1f40;background:#ffd600;padding:2px 6px;border-radius:4px;
+  white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  animation:nxTagPop .35s ease;
+}
+.fp-story-frame--final .nx-point{display:none}
+.fp-story-frame--final .fp-story-final{flex:1;min-height:0;overflow:hidden}
+.fp-story-app-screen{
+  background:#0d1f40;display:flex;align-items:flex-start;
+}
+.fp-story-app-screen img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+}
+.fp-story-frame--final .fp-story-step{color:#7dd3fc}
+.fp-story-frame--final .fp-story-title{color:#fff}
+@keyframes nxTagPop{
+  from{opacity:0;transform:translateX(-50%) translateY(4px)}
+  to{opacity:1;transform:translateX(-50%) translateY(0)}
+}
+
+.fp-story-mock--guide,.cap-story-mock--guide{
+  position:relative;background:linear-gradient(180deg,#0a1830 0%,#152a52 45%,#1e3a6a 100%);
+}
+.fp-story-mock--guide p,.cap-story-mock--guide p{
+  color:rgba(255,255,255,0.88);max-width:200px;margin-top:8px;
+}
+.fp-story-mock--guide .fp-mock-ico,.cap-story-mock--guide .cap-mock-ico{display:none}
+
+.cap-story-view{position:absolute;inset:0;background:#fff;display:block}
+.cap-story-frame{
+  position:absolute;inset:0;opacity:0;visibility:hidden;
+  transition:opacity .4s ease;display:flex;flex-direction:column;
+}
+.cap-story-frame.active{opacity:1;visibility:visible;z-index:1}
+.cap-story-media{flex:1;min-height:0;position:relative}
+.cap-story-mock{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 14px;text-align:center;
+}
+.cap-story-bar{
+  flex-shrink:0;padding:10px 12px 12px;
+  background:linear-gradient(180deg,#0a1830,#0d1f40);color:#fff;
+}
+.cap-story-progress{display:flex;gap:4px;margin-bottom:8px}
+.cap-story-progress i{
+  flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.28);
+  transition:background .25s;
+}
+.cap-story-progress i.on{background:#c9a82e}
+.cap-story-step{font-size:7px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#ffd600;margin-bottom:3px}
+.cap-story-title{font-size:10px;font-weight:700;line-height:1.35}
+
+.fp-story-mock--guide .fp-cal-hd,
+.cap-story-mock--guide .cap-cal-hd{color:#fff}
+.fp-story-mock--guide .fp-cal-grid .dow,
+.cap-story-mock--guide .cap-cal-grid .dow{color:rgba(255,255,255,0.55)}
+.fp-story-mock--guide .fp-cal-grid .day,
+.cap-story-mock--guide .cap-cal-grid .day{
+  background:rgba(255,255,255,0.12);color:#fff;
+}
+.fp-story-mock--guide .fp-cal-grid .day.ev,
+.cap-story-mock--guide .cap-cal-grid .day.ev{background:#3b82f6}
+.fp-story-mock--guide .fp-cal-grid .day.today,
+.cap-story-mock--guide .cap-cal-grid .day.today{box-shadow:inset 0 0 0 2px #ffd600}

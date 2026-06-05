@@ -1,0 +1,723 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download App | Nikonyx</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../assets/nx-guide.css" />
+  <link rel="stylesheet" href="../assets/nx-home-dashboard.css" />
+  <link rel="stylesheet" href="../assets/nx-calendar-screen.css" />
+  <style>
+    .app-hero {
+      position:relative; z-index:1;
+      padding:140px 6% 80px; text-align:center;
+    }
+    .app-hero::before {
+      content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+      width:700px; height:420px;
+      background:radial-gradient(ellipse, rgba(42,88,200,0.18) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .app-hero p { font-size:17px; color:var(--text-secondary); max-width:520px; margin:16px auto 40px; line-height:1.7; }
+
+    .badge-row { justify-content:center; }
+
+    .qr-section {
+      position:relative; z-index:1;
+      padding:0 6% 80px; text-align:center;
+    }
+    .qr-box {
+      display:inline-flex; flex-direction:column; align-items:center;
+      background:var(--glass-bg); border:1px solid var(--glass-border);
+      border-radius:24px; padding:40px;
+    }
+    .qr-placeholder {
+      width:140px; height:140px;
+      background:var(--navy-mid);
+      border:2px dashed var(--navy-border);
+      border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px; color:var(--text-muted);
+      margin-bottom:16px;
+    }
+    .qr-box p { font-size:14px; color:var(--text-secondary); }
+
+    .capabilities {
+      position:relative; z-index:1;
+      padding:40px 6% 100px;
+    }
+    .cap-showcase{
+      display:grid;grid-template-columns:1fr 280px;
+      gap:36px;align-items:start;max-width:1180px;margin:40px auto 0;
+    }
+    .cap-grid-interactive{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+    }
+    @media(min-width:960px){ .cap-grid-interactive{grid-template-columns:repeat(4,1fr)} }
+    .cap-card{
+      background:var(--glass-bg);border:1px solid var(--glass-border);
+      border-radius:16px;padding:18px 16px;
+      display:flex;align-items:flex-start;gap:10px;
+      cursor:pointer;user-select:none;
+      transition:transform .2s,border-color .2s,box-shadow .2s;
+    }
+    .cap-card:hover{transform:translateY(-3px);border-color:var(--blue-accent)}
+    .cap-card.is-active{
+      border-color:var(--gold);
+      box-shadow:inset 0 0 0 2px var(--gold),0 8px 24px rgba(0,0,0,0.25);
+      transform:translateY(-2px);
+    }
+    .cap-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+    .cap-card h4{font-size:13px;font-weight:700;margin-bottom:4px;line-height:1.25}
+    .cap-card p{font-size:11px;color:var(--text-secondary);line-height:1.5}
+    .cap-phone-col{
+      display:flex;flex-direction:column;align-items:center;
+      position:sticky;top:100px;
+    }
+    .cap-phone{
+      width:268px;background:var(--navy-deep);
+      border:2px solid var(--gold);border-radius:40px;
+      padding:12px 9px;
+      box-shadow:0 0 0 5px rgba(201,154,46,0.08),0 28px 56px rgba(0,0,0,0.45);
+    }
+    .cap-screen{
+      background:#fff;border-radius:30px;overflow:hidden;
+      min-height:480px;position:relative;
+    }
+    .cap-carousel{position:relative;min-height:480px;width:100%}
+    .cap-slide{
+      position:absolute;inset:0;opacity:0;visibility:hidden;
+      transition:opacity .4s ease;overflow:hidden;background:#fff;
+    }
+    .cap-slide.active{opacity:1;visibility:visible;z-index:1}
+    .cap-slide--img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+    .cap-demo{display:flex;flex-direction:column;height:100%;background:#fff}
+    .cap-demo-hd{
+      background:linear-gradient(180deg,#0a1830,#0d1f40);
+      padding:10px 12px 8px;color:#fff;flex-shrink:0;
+    }
+    .cap-demo-hd strong{display:block;font-size:11px;font-weight:700}
+    .cap-demo-hd span{font-size:9px;color:rgba(255,255,255,0.7)}
+    .cap-demo-img{flex:1;min-height:0;position:relative;background:#f1f5f9}
+    .cap-demo-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+    .cap-demo-tags{
+      display:flex;flex-wrap:wrap;gap:5px;padding:8px 10px;
+      background:#f8faff;border-top:1px solid #e2e8f0;
+    }
+    .cap-demo-tags span{
+      font-size:8px;font-weight:700;padding:4px 8px;border-radius:999px;
+      background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;
+    }
+    .cap-outfit-rot{position:relative;flex:1;min-height:0}
+    .cap-outfit-rot img{
+      position:absolute;inset:0;width:100%;height:100%;
+      object-fit:cover;object-position:center top;
+      opacity:0;transition:opacity .5s ease;
+    }
+    .cap-outfit-rot img.active{opacity:1}
+    .cap-mock-cal{
+      display:grid;grid-template-columns:repeat(7,1fr);gap:3px;
+      padding:8px 10px 4px;font-size:7px;text-align:center;color:#64748b;
+    }
+    .cap-mock-cal .day{
+      aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;
+      background:#f1f5f9;color:#334155;font-weight:600;
+    }
+    .cap-mock-cal .day.ev{background:#3b82f6;color:#fff}
+    .cap-mock-cal .day.today{box-shadow:inset 0 0 0 2px var(--gold)}
+    .cap-phone-caption{margin-top:12px;font-size:13px;font-weight:600;color:var(--text-secondary)}
+    .cap-phone-hint{margin-top:6px;font-size:11px;color:var(--text-muted);text-align:center}
+    @media(max-width:900px){
+      .cap-showcase{grid-template-columns:1fr}
+      .cap-phone-col{position:relative;top:auto}
+    }
+    @media(max-width:600px){ .badge-row{flex-direction:column;align-items:center} }
+  </style>
+</head>
+<body>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="../index.html" class="logo-wrap">
+      <div class="logo-circle"><img src="../assets/nx-logo.png" alt="NX" class="nx-mark"/></div>
+      <span class="logo-name">Nikonyx</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="apps.html" class="active">App</a></li>
+      <li><a href="help_center.html">Help</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-dd" data-lang-dd>
+        <div class="lang-dd-panel">
+          <button type="button" class="lang-dd-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+            <span class="lang-flag lang-flag--en lang-dd-flag" aria-hidden="true"></span>
+            <span class="lang-dd-label">English</span>
+            <svg class="lang-dd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="lang-dd-menu" role="listbox" hidden>
+            <li><button type="button" class="lang-dd-opt active" data-lang="en" role="option" aria-selected="true"><span class="lang-flag lang-flag--en" aria-hidden="true"></span>English</button></li>
+            <li><button type="button" class="lang-dd-opt" data-lang="fr" role="option" aria-selected="false"><span class="lang-flag lang-flag--fr" aria-hidden="true"></span>Français</button></li>
+            <li><button type="button" class="lang-dd-opt" data-lang="de" role="option" aria-selected="false"><span class="lang-flag lang-flag--de" aria-hidden="true"></span>Deutsch</button></li>
+          </ul>
+        </div>
+      </div>
+      <a href="apps.html" class="nav-cta">Get Started</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" id="nav-overlay">
+    <a href="../index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="apps.html">App</a>
+    <a href="help_center.html">Help</a>
+    <a href="contact.html">Contact</a>
+    <div class="lang-dd lang-dd--mob" data-lang-dd>
+      <div class="lang-dd-panel">
+        <button type="button" class="lang-dd-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span class="lang-flag lang-flag--en lang-dd-flag" aria-hidden="true"></span>
+          <span class="lang-dd-label">English</span>
+          <svg class="lang-dd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <ul class="lang-dd-menu" role="listbox" hidden>
+          <li><button type="button" class="lang-dd-opt active" data-lang="en" role="option" aria-selected="true"><span class="lang-flag lang-flag--en" aria-hidden="true"></span>English</button></li>
+          <li><button type="button" class="lang-dd-opt" data-lang="fr" role="option" aria-selected="false"><span class="lang-flag lang-flag--fr" aria-hidden="true"></span>Français</button></li>
+          <li><button type="button" class="lang-dd-opt" data-lang="de" role="option" aria-selected="false"><span class="lang-flag lang-flag--de" aria-hidden="true"></span>Deutsch</button></li>
+        </ul>
+      </div>
+    </div>
+    <a href="apps.html" class="nav-cta-mobile">Get Started</a>
+  </div>
+
+  <div class="app-hero">
+    <div class="section-eyebrow reveal">Download Now</div>
+    <h1 class="section-title reveal">Available on Android &amp; iOS</h1>
+    <p class="reveal">Get the Nikonyx app and transform how you dress with AI-powered outfit suggestions, 3D avatar creation, and virtual try-on.</p>
+    <div class="badge-row store-badges reveal">
+      <a href="#" class="store-badge store-badge--apple" aria-label="Download on the App Store">
+        <span class="badge-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path fill="#FFFFFF" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+        </span>
+        <span class="badge-text">
+          <span class="sub">Download on the</span>
+          <span class="main">App Store</span>
+        </span>
+      </a>
+      <a href="#" class="store-badge store-badge--play" aria-label="Get it on Google Play">
+        <span class="badge-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path fill="#4285F4" d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12 3.84 21.85C3.34 21.6 3 21.09 3 20.5z"/>
+            <path fill="#34A853" d="M16.81 15.12 6.05 21.34l8.49-8.49 2.27 2.27z"/>
+            <path fill="#FBBC04" d="M16.81 8.88 14.54 11.15 6.05 2.66l10.76 6.22z"/>
+            <path fill="#EA4335" d="M20.16 10.81c.48.28.48.96 0 1.24l-3.35 1.94-2.27-2.27 2.27-2.27 3.35 1.36z"/>
+          </svg>
+        </span>
+        <span class="badge-text">
+          <span class="sub">GET IT ON</span>
+          <span class="main">Google Play</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="qr-section reveal">
+    <div class="qr-box">
+      <div class="qr-placeholder">QR Code</div>
+      <p>Scan to download on your phone</p>
+    </div>
+  </div>
+
+  <section class="capabilities">
+    <div style="text-align:center">
+      <div class="section-eyebrow reveal">App Capabilities</div>
+      <h2 class="section-title reveal">Everything Inside the App</h2>
+      <p class="reveal" style="max-width:520px;margin:12px auto 0;font-size:15px;color:var(--text-secondary)">Click any feature to preview how it works in Nikonyx — real app screens and AI-styled looks from your wardrobe.</p>
+    </div>
+
+    <div class="cap-showcase reveal">
+      <div class="cap-grid-interactive" id="capGrid">
+        <div class="cap-card is-active" data-cap="ai" role="button" tabindex="0" aria-pressed="true">
+          <div class="cap-icon">&#129302;</div>
+          <div>
+            <h4>AI Outfit Suggestions</h4>
+            <p>Ask NX for outfit ideas for any occasion — multi-agent AI.</p>
+          </div>
+        </div>
+        <div class="cap-card" data-cap="wardrobe" role="button" tabindex="0" aria-pressed="false">
+          <div class="cap-icon">&#128084;</div>
+          <div>
+            <h4>Digital Wardrobe</h4>
+            <p>Upload and organise all your clothes. AI auto-tags every item for you.</p>
+          </div>
+        </div>
+        <div class="cap-card" data-cap="tryon" role="button" tabindex="0" aria-pressed="false">
+          <div class="cap-icon">&#129706;</div>
+          <div>
+            <h4>Virtual Try-On</h4>
+            <p>Preview outfits on your body before leaving the house.</p>
+          </div>
+        </div>
+        <div class="cap-card" data-cap="scan3d" role="button" tabindex="0" aria-pressed="false">
+          <div class="cap-icon">&#11835;</div>
+          <div>
+            <h4>3D Body Scan</h4>
+            <p>Create your accurate digital twin with a 360&deg; body scan in minutes.</p>
+          </div>
+        </div>
+        <div class="cap-card" data-cap="friends" role="button" tabindex="0" aria-pressed="false">
+          <div class="cap-icon">&#128101;</div>
+          <div>
+            <h4>Friends Space and Social Media Sharing</h4>
+            <p>Share outfits, follow friends, and get style inspiration from your community.</p>
+          </div>
+        </div>
+        <div class="cap-card" data-cap="calendar" role="button" tabindex="0" aria-pressed="false">
+          <div class="cap-icon">&#128197;</div>
+          <div>
+            <h4>Calendar Planning</h4>
+            <p>Schedule outfits for every event and never repeat a look.</p>
+          </div>
+        </div>
+        <div class="cap-card" data-cap="shopping" role="button" tabindex="0" aria-pressed="false">
+          <div class="cap-icon">&#128722;</div>
+          <div>
+            <h4>Smart Shopping</h4>
+            <p>AI finds missing wardrobe pieces from trusted retailers when needed.</p>
+          </div>
+        </div>
+        <div class="cap-card" data-cap="chat" role="button" tabindex="0" aria-pressed="false">
+          <div class="cap-icon">&#128172;</div>
+          <div>
+            <h4>Fashion AI Chat</h4>
+            <p>Chat with NX about any style question — your personal stylist, always on.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap-phone-col">
+        <div class="cap-phone">
+          <div class="phone-notch"></div>
+          <div class="cap-screen">
+            <div class="cap-carousel" id="capPhoneCarousel">
+
+              
+<div class="cap-slide active" data-slide="ai">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-mock fp-story-mock--guide">
+                  <span class="nx-point nx-point--lg" style="left:50%;top:36%"><em class="nx-point-tag">Tap here</em></span>
+                  <p>Open <strong>Ask Nikonyx</strong> on Home</p>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Start the AI stylist chat</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-mock fp-story-mock--guide">
+                  <span class="nx-point nx-point--lg" style="left:58%;top:44%"><em class="nx-point-tag">Pick occasion</em></span>
+                  <p>Choose <strong>Date night</strong>, Work, or Weekend</p>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Tell NX where you are going</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-smart-casual.png" alt="AI suggested outfit"/>
+                    <div class="nx-chrome nx-chrome--top"><span>Ask Nikonyx</span><span>Your look</span></div>
+                    <span class="nx-point" style="left:68%;top:76%"><em class="nx-point-tag">Save look</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">AI builds a full look from your wardrobe</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-evening.png" alt="Try on outfit"/>
+                    <div class="nx-chrome nx-chrome--top"><span>NX</span><span>Try on</span></div>
+                    <span class="nx-point" style="left:50%;top:72%"><em class="nx-point-tag">Try on</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Save, try on, or schedule the outfit</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cap-slide" data-slide="wardrobe">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-wardrobe/step1-home.png" alt="Home screen"/>
+                    <span class="nx-point" style="left:26%;top:91%"><em class="nx-point-tag">Wardrobe</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 5</div><div class="fp-story-title">From Home — tap Wardrobe</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-wardrobe/step2-wardrobe.png" alt="Wardrobe screen"/>
+                    <span class="nx-point" style="left:91%;top:78%"><em class="nx-point-tag">+</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 5</div><div class="fp-story-title">Open Wardrobe — tap +</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-wardrobe/step3-add-photo.png" alt="Add item form"/>
+                    <span class="nx-point" style="left:50%;top:30%"><em class="nx-point-tag">+</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 5</div><div class="fp-story-title">Tap + to select photos</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-wardrobe/step4-picker.png" alt="Select photos"/>
+                    <span class="nx-point" style="left:14%;top:26%"><em class="nx-point-tag">Select</em></span>
+                    <span class="nx-point" style="left:38%;top:42%"><em class="nx-point-tag">Select</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 5</div><div class="fp-story-title">Choose one or more items</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 5 of 5</div><div class="fp-story-title">Item saved in your Wardrobe</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cap-slide" data-slide="tryon">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-wardrobe/step1-home.png" alt="Home screen"/>
+                    <span class="nx-point" style="left:18%;top:91%"><em class="nx-point-tag">Try-On</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">From Home — tap Try-On</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-tryon/tryon-loading.png" alt="AR Fitting Room"/>
+                    <span class="nx-point nx-point--lg" style="left:78%;top:88%"><em class="nx-point-tag">Load wardrobe</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Load pieces from your wardrobe</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-tryon/tryon-loading.png" alt="Select outfit pieces"/>
+                    <span class="nx-point" style="left:78%;top:36%"><em class="nx-point-tag">Tops</em></span>
+                    <span class="nx-point" style="left:78%;top:52%"><em class="nx-point-tag">Bottoms</em></span>
+                    <span class="nx-point" style="left:78%;top:68%"><em class="nx-point-tag">Shoes</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Choose tops, bottoms &amp; shoes</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">See your full look in AR</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cap-slide" data-slide="scan3d">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-work.png" alt="Body scan"/>
+                    <span class="nx-point nx-point--lg" style="left:50%;top:82%"><em class="nx-point-tag">Start scan</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Begin your 360&deg; body scan</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-streetwear.png" alt="Rotate"/>
+                    <span class="nx-point nx-point--lg" style="left:50%;top:45%"><em class="nx-point-tag">Rotate</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Rotate in place for the camera</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-mock fp-story-mock--guide">
+                  <span class="nx-point nx-point--lg" style="left:50%;top:42%"><em class="nx-point-tag">Processing</em></span>
+                  <p>AI maps your <strong>measurements</strong></p>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Build your digital twin</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-smart-casual.png" alt="Fit preview"/>
+                    <span class="nx-point" style="left:50%;top:68%"><em class="nx-point-tag">Perfect fit</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Size-matched try-on &amp; shopping</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cap-slide" data-slide="friends">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-party.png" alt="Style feed"/>
+                    <div class="nx-chrome nx-chrome--top"><span>Style Feed</span><span>+</span></div>
+                    <span class="nx-point" style="left:50%;top:22%"><em class="nx-point-tag">Browse</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Browse the Style Feed</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-city-chic.png" alt="New look"/>
+                    <span class="nx-point" style="left:84%;top:14%"><em class="nx-point-tag">New Look</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Share your look with friends</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-minimalist.png" alt="Like"/>
+                    <span class="nx-point" style="left:16%;top:70%"><em class="nx-point-tag">Like</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Get reactions from your circle</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-evening.png" alt="Try this look"/>
+                    <span class="nx-point" style="left:24%;top:80%"><em class="nx-point-tag">Try This Look</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Try friends&apos; styles on yourself</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cap-slide" data-slide="calendar">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/demo-wardrobe/step1-home.png" alt="Home screen"/>
+                    <span class="nx-point" style="left:12%;top:14%"><em class="nx-point-tag">Menu</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">From Home — open Fashion Calendar</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene fp-cal-step-screen">
+                    <div class="fp-cal-step-hd">Fashion Calendar</div>
+                    <div class="fp-cal-step-tabs"><span>Day</span><span>Week</span><span class="on">Month</span></div>
+                    <div class="fp-cal-step-month">June 2026</div>
+                    <div class="fp-cal-step-grid">
+                      <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+                      <span class="day dim">26</span><span class="day dim">27</span><span class="day dim">28</span><span class="day dim">29</span><span class="day dim">30</span><span class="day dim">31</span><span class="day">1</span>
+                      <span class="day">2</span><span class="day">3</span><span class="day today">4</span><span class="day">5</span><span class="day">6</span><span class="day ev">7</span><span class="day">8</span>
+                      <span class="day">9</span><span class="day">10</span><span class="day">11</span><span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day">15</span>
+                      <span class="day">16</span><span class="day">17</span><span class="day">18</span><span class="day">19</span><span class="day">20</span><span class="day">21</span><span class="day">22</span>
+                      <span class="day">23</span><span class="day">24</span><span class="day">25</span><span class="day">26</span><span class="day">27</span><span class="day">28</span><span class="day">29</span>
+                      <span class="day">30</span><span class="day dim">1</span><span class="day dim">2</span><span class="day dim">3</span><span class="day dim">4</span><span class="day dim">5</span><span class="day dim">6</span>
+                    </div>
+                    <span class="nx-point nx-point--lg" style="left:82%;top:38%"><em class="nx-point-tag">Event day</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Tap the day of your event</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-evening.png" alt="Planned outfit"/>
+                    <span class="nx-point" style="left:50%;top:74%"><em class="nx-point-tag">Pin outfit</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Pin a complete outfit to that day</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Your Fashion Calendar</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cap-slide" data-slide="shopping">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-streetwear.png" alt="Search"/>
+                    <div class="nx-chrome nx-chrome--top"><span>Smart Shopping</span><span>Search</span></div>
+                    <span class="nx-point" style="left:50%;top:18%"><em class="nx-point-tag">Search</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Search style &amp; budget</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-work.png" alt="Budget"/>
+                    <span class="nx-point" style="left:72%;top:22%"><em class="nx-point-tag">Budget</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Set your price range</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-minimalist.png" alt="Favourite"/>
+                    <span class="nx-point" style="left:28%;top:78%"><em class="nx-point-tag">Favourite</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Save pieces you like</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-party.png" alt="Try on"/>
+                    <span class="nx-point" style="left:50%;top:72%"><em class="nx-point-tag">Try on</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Try on or add to outfit</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cap-slide" data-slide="chat">
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-mock fp-story-mock--guide">
+                  <span class="nx-point nx-point--lg" style="left:50%;top:36%"><em class="nx-point-tag">Tap here</em></span>
+                  <p>Open <strong>Ask Nikonyx</strong> chat</p>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Start fashion chat</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-city-chic.png" alt="Ask stylist"/>
+                    <span class="nx-point" style="left:50%;top:20%"><em class="nx-point-tag">Type here</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Ask any style question</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-smart-casual.png" alt="NX suggests"/>
+                    <span class="nx-point" style="left:50%;top:65%"><em class="nx-point-tag">Suggestion</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">NX recommends a full look</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="../assets/app-cap/outfit-evening.png" alt="Save advice"/>
+                    <span class="nx-point" style="left:68%;top:76%"><em class="nx-point-tag">Save</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Save or try the suggested outfit</div></div>
+              </div>
+            </div>
+          </div>
+
+            
+
+            </div>
+          </div>
+        </div>
+        <p class="cap-phone-caption" id="capPhoneCaption">AI Outfit Suggestions</p>
+        <p class="cap-phone-hint">Steps auto-play → final screen matches welcoming app → loops</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo-wrap" style="margin-bottom:14px;display:inline-flex">
+          <div class="logo-circle"><img src="../assets/nx-logo.png" alt="NX" class="nx-mark"/></div>
+          <span class="logo-name">Nikonyx</span>
+        </a>
+        <p>Your Smart AI Wardrobe Assistant.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="help_center.html">Help</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Nikonyxlook. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#" class="soc soc--tiktok" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
+        <a href="#" class="soc soc--instagram" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+        <a href="#" class="soc soc--x" aria-label="X" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" class="soc soc--pinterest" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0a12 12 0 0 0-4.37 23.17c-.07-.63-.14-1.6.03-2.29.15-.63.97-4.01.97-4.01s-.25-.5-.25-1.24c0-1.16.67-2.03 1.51-2.03.71 0 1.05.53 1.05 1.17 0 .71-.46 1.78-.69 2.77-.2.83.42 1.51 1.24 1.51 1.49 0 2.63-1.57 2.63-3.84 0-2.01-1.44-3.42-3.5-3.42-2.38 0-3.78 1.79-3.78 3.64 0 .72.28 1.5.63 1.92a.25.25 0 0 1 .06.24c-.07.28-.22.88-.25 1-.04.16-.13.2-.3.12-1.12-.52-1.82-2.15-1.82-3.46 0-2.82 2.05-5.41 5.91-5.41 3.11 0 5.52 2.21 5.52 5.16 0 3.09-1.95 5.58-4.66 5.58-.91 0-1.76-.47-2.05-1.03l-.56 2.14c-.2.78-.75 1.75-1.12 2.34A12 12 0 1 0 12 0z"/></svg></a>
+        <a href="#" class="soc soc--facebook" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.845c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+        <a href="#" class="soc soc--whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+  </footer>
+  <template id="nxHomeDashboardTpl"><!-- same as index welcoming home -->
+<div class="p-status"><span>10:50</span><div class="p-sr"><span>&#128246;</span><span>&#9679;</span><span class="p-bat">90%</span></div></div>
+<div class="p-header"><div class="p-bar"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div><div class="p-nx-logo"><img src="{{asset}}nx-logo.png" alt="NX" class="nx-mark"/></div><div class="p-bar-r"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a5 5 0 00-5 5v2.2c0 .8-.3 1.6-.9 2.2L4 14.5V16h16v-1.5l-2.1-2.1a3.1 3.1 0 01-.9-2.2V8a5 5 0 00-5-5z"/><path d="M10 19a2 2 0 004 0"/></svg></div><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div></div></div><div class="p-header-curve"></div></div>
+<div class="p-body"><div class="p-profile"><h2 class="p-name">Ezel</h2><p class="p-usub">— Your NX Style Assistant —</p><div class="p-avatar">E</div></div><div class="p-ai"><div class="p-aid">NX</div><div class="p-aiph">Ask NX for <strong>Outfit Suggestions</strong></div><div class="p-mic">&#127908;</div></div><div class="p-chips"><div class="p-chip on">Date</div><div class="p-chip">Wedding</div><div class="p-chip">Work</div></div><div class="p-quick-row"><div class="p-qcard"><span class="p-qic">&#128100;</span><span class="p-qlb">Create Outfits</span><span class="p-qarr">&#8250;</span></div><div class="p-qcard"><span class="p-qic">&#128278;</span><span class="p-qlb">Saved Outfits</span><span class="p-qarr">&#8250;</span></div><div class="p-qcard"><span class="p-qic">&#128722;</span><span class="p-qlb">Shopping</span><span class="p-qarr">&#8250;</span></div></div><div class="p-feed p-fab-wrap"><div class="p-feed-col"><div class="p-feed-hd">Inspiration</div><div class="p-feed-card"><div class="p-feed-img p-feed-img--suit"></div><div class="p-feed-title">Elevated Formal</div><div class="p-feed-sub">Navy suit</div><div class="p-feed-dots"><i class="on"></i><i></i></div></div></div><div class="p-feed-col"><div class="p-feed-hd">Fits Wardrobe</div><div class="p-feed-card"><div class="p-feed-img p-feed-img--empty"></div><div class="p-feed-title">Smart Casual</div><div class="p-feed-sub">Layers</div><div class="p-feed-dots"><i class="on"></i><i></i></div></div></div><div class="p-feed-col"><div class="p-feed-hd">Trends</div><div class="p-feed-card"><div class="p-feed-img p-feed-img--bag"></div><div class="p-feed-title">Evening Look</div><div class="p-feed-sub">Charcoal</div><div class="p-feed-dots"><i class="on"></i><i></i></div></div></div><div class="p-fab">&#128172;</div></div></div>
+<div class="p-bnav"><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h2.5l1.8-2.8h7.4L17.5 8H20a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2v-7a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.2"/></svg></div><div class="p-bnl">Try-On</div></div><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.5 10.2C4.6 10.2 3 11.4 3 13v1.2h18V13c0-1.6-1.6-2.8-3.5-2.8"/><path d="M12 5c1 0 1.8.8 1.8 1.8 0 .6-.3 1.1-.8 1.4L12 9.2l-1-1c-.5-.3-.8-.8-.8-1.4C10.2 5.8 11 5 12 5z"/></svg></div><div class="p-bnl">Wardrobe</div></div><div class="p-bn on"><div class="p-home-ring"><img src="{{asset}}nx-logo.png" alt="Home" class="nx-mark"/></div><div class="p-bnl">Home</div></div><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="8.2" r="2.6"/><circle cx="15.8" cy="9" r="2.1"/><path d="M4.5 17.8c0-2.3 2-4.1 4.5-4.1s4.5 1.8 4.5 4.1"/></svg></div><div class="p-bnl">Friends</div></div><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><rect x="7.5" y="4" width="8" height="14" rx="1.5"/></svg></div><div class="p-bnl">Outfits</div></div></div>
+  </template>
+  <template id="nxCalendarScreenTpl"><!-- same as index calendar final -->
+<div class="p-status"><span>10:50</span><div class="p-sr"><span>&#128246;</span><span>&#9679;</span><span class="p-bat">90%</span></div></div>
+<div class="p-header"><div class="p-bar"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div><div class="p-cal-title">Fashion Calendar</div><div class="p-bar-r"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a5 5 0 00-5 5v2.2c0 .8-.3 1.6-.9 2.2L4 14.5V16h16v-1.5l-2.1-2.1a3.1 3.1 0 01-.9-2.2V8a5 5 0 00-5-5z"/><path d="M10 19a2 2 0 004 0"/></svg></div><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div></div></div><div class="p-header-curve"></div></div>
+<div class="p-cal-body"><div class="p-cal-tabs"><span>Day</span><span>Week</span><span class="on">Month</span></div><div class="p-cal-nav"><button type="button" class="p-cal-arrow" aria-hidden="true">&#8249;</button><span class="p-cal-month">June 2026</span><button type="button" class="p-cal-arrow" aria-hidden="true">&#8250;</button></div><div class="p-cal-grid"><span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span><span class="day dim">26</span><span class="day dim">27</span><span class="day dim">28</span><span class="day dim">29</span><span class="day dim">30</span><span class="day dim">31</span><span class="day">1</span><span class="day">2</span><span class="day">3</span><span class="day today">4</span><span class="day has-outfit">5</span><span class="day">6</span><span class="day ev">7</span><span class="day">8</span><span class="day">9</span><span class="day has-outfit">10</span><span class="day">11</span><span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day has-outfit">15</span><span class="day">16</span><span class="day">17</span><span class="day">18</span><span class="day ev">19</span><span class="day">20</span><span class="day">21</span><span class="day">22</span><span class="day">23</span><span class="day">24</span><span class="day has-outfit">25</span><span class="day">26</span><span class="day">27</span><span class="day">28</span><span class="day">29</span><span class="day">30</span><span class="day dim">1</span><span class="day dim">2</span><span class="day dim">3</span><span class="day dim">4</span><span class="day dim">5</span><span class="day dim">6</span></div><div class="p-cal-event"><div class="p-cal-event-thumb"></div><div class="p-cal-event-txt"><strong>Sat 7 — Wedding</strong><span>Evening Elegance · pinned outfit</span></div></div><div class="p-cal-hint">Tap any day to plan what you&apos;ll wear</div></div>
+  </template>
+  <script src="../script.js"></script>
+  <script src="../assets/phone-story.js"></script>
+  <script>
+  initPhoneStories({
+    carouselId: 'capPhoneCarousel',
+    boxSelector: '#capGrid .cap-card',
+    slideSelector: '#capPhoneCarousel .cap-slide',
+    boxActiveClass: 'is-active',
+    captionId: 'capPhoneCaption',
+    defaultKey: 'ai',
+    assetPrefix: '../assets/',
+    labels: {
+      ai: 'AI Outfit Suggestions',
+      wardrobe: 'Digital Wardrobe',
+      tryon: 'Virtual Try-On',
+      scan3d: '3D Body Scan',
+      friends: 'Friends Space and Social Media Sharing',
+      calendar: 'Calendar Planning',
+      shopping: 'Smart Shopping',
+      chat: 'Fashion AI Chat'
+    }
+  });
+  </script>
+</body>
+</html>
+

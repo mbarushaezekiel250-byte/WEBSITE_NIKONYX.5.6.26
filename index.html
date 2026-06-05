@@ -1,0 +1,1939 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Nikonyx | Your Smart AI Wardrobe Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,300&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/nx-guide.css"/>
+<link rel="stylesheet" href="assets/nx-home-dashboard.css"/>
+<link rel="stylesheet" href="assets/nx-calendar-screen.css"/>
+<style>
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — Obsidian Edge / Royal Navy
+═══════════════════════════════════════════ */
+:root{
+  --bg:     #0D1F40;
+  --bg2:    #FFFFFF;
+  --bg3:    #091630;
+  --card:   #0F2249;
+  --card2:  #122558;
+  --brd:    #1C3360;
+  --brd2:   #253E74;
+  --blue:   #3B82F6;
+  --blu-lt: #93C5FD;
+  --blu-dk: #1D4ED8;
+  --gold:   #C8A840;
+  --gld-lt: #D4B843;
+  --gld-dk: #A8892E;
+  --gld-gl: rgba(200,168,64,0.25);
+  --gld-dim:rgba(200,168,64,0.10);
+  --white:  #FFFFFF;
+  --t2:     #93C5FD;
+  --t3:     #4A6488;
+  --on-light: #0D1F40;
+  --on-light-muted: #5A7090;
+  --font:   'DM Sans', sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════ */
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--white);
+  line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* ── GOLD TOP ACCENT STRIPE ── */
+body::before{
+  content:'';
+  position:fixed;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent 0%,var(--gld-dk) 15%,var(--gold) 40%,var(--blue) 60%,var(--gold) 80%,var(--gld-dk) 100%);
+  z-index:9999;pointer-events:none;
+}
+
+/* ── DIAGONAL GRID TEXTURE ── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255,255,255,0.022) 0px,
+      rgba(255,255,255,0.022) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+  pointer-events:none;z-index:0;
+}
+
+/* ── AMBIENT ORBS ── */
+.amb{position:fixed;pointer-events:none;z-index:0;border-radius:50%}
+.amb1{top:-120px;left:8%;width:480px;height:480px;background:radial-gradient(circle,rgba(59,130,246,0.07) 0%,transparent 60%)}
+.amb2{bottom:-80px;right:6%;width:420px;height:420px;background:radial-gradient(circle,rgba(200,168,64,0.07) 0%,transparent 60%)}
+.amb3{top:45%;left:50%;transform:translate(-50%,-50%);width:900px;height:450px;background:radial-gradient(ellipse,rgba(59,130,246,0.04) 0%,transparent 65%)}
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:9000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 6%;
+  transition:all .32s ease;
+}
+.nav.scrolled{
+  background:rgba(13,31,64,0.96);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--brd);
+  padding:14px 6%;
+}
+
+.nav-logo{display:flex;align-items:center;gap:13px;text-decoration:none}
+
+.nav-ring{
+  width:40px;height:40px;border-radius:50%;overflow:hidden;
+  border:1px solid rgba(147,197,253,0.35);
+  flex-shrink:0;transition:border-color .25s,box-shadow .25s;
+  box-shadow:0 0 12px rgba(59,130,246,0.35);
+}
+.nav-logo:hover .nav-ring{border-color:var(--gold);box-shadow:0 0 16px var(--gld-gl)}
+
+.nav-word{
+  font-weight:400;font-size:12.5px;
+  letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,.82);
+}
+
+.nav-links{list-style:none;display:flex;gap:32px}
+.nav-links a{
+  color:var(--t2);text-decoration:none;
+  font-size:14px;font-weight:400;
+  position:relative;padding-bottom:3px;
+  transition:color .2s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;
+  width:0;height:1px;background:var(--gold);
+  transition:width .25s ease;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:var(--white)}
+
+.nav-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 22px;border-radius:3px;
+  background:var(--gold);color:#0a0f1e;
+  text-decoration:none;
+  font-weight:800;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  border:none;cursor:pointer;
+  transition:all .22s;white-space:nowrap;
+}
+.nav-btn:hover{background:var(--gld-lt);transform:translateY(-1px);box-shadow:0 6px 20px var(--gld-gl)}
+
+.nav-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+
+.lang-dd{position:relative;z-index:9100}
+.lang-dd-panel{
+  background:#fff;border:1.5px solid #1f2937;border-radius:14px;
+  overflow:hidden;min-width:158px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.12);
+}
+.lang-dd-trigger{
+  width:100%;display:flex;align-items:center;gap:8px;
+  padding:10px 12px;background:#fff;border:none;cursor:pointer;
+  font-family:var(--font);font-size:13px;font-weight:500;color:#111827;
+}
+.lang-dd-flag{width:18px;height:12px;flex-shrink:0}
+.lang-dd-label{flex:1;text-align:left}
+.lang-dd-chev{width:14px;height:14px;flex-shrink:0;color:#374151;transition:transform .22s ease}
+.lang-dd.open .lang-dd-chev{transform:rotate(180deg)}
+.lang-dd-menu{list-style:none;margin:0;padding:0 0 4px;border-top:1px solid #e5e7eb}
+.lang-dd-menu[hidden]{display:none}
+.lang-dd-opt{
+  width:100%;display:flex;align-items:center;gap:8px;
+  padding:10px 12px;background:none;border:none;cursor:pointer;
+  font-family:var(--font);font-size:13px;font-weight:400;color:#1f2937;text-align:left;
+  transition:background .15s;
+}
+.lang-dd-opt:hover{background:#f3f4f6}
+.lang-dd-opt.active{font-weight:600;color:#111827}
+.lang-flag{
+  width:16px;height:11px;border-radius:2px;flex-shrink:0;
+  border:1px solid rgba(0,0,0,0.15);
+}
+.lang-flag--en{
+  background:
+    linear-gradient(33deg,transparent 46%,#C8102E 46%,#C8102E 54%,transparent 54%),
+    linear-gradient(-33deg,transparent 46%,#C8102E 46%,#C8102E 54%,transparent 54%),
+    linear-gradient(90deg,transparent 46%,#fff 46%,#fff 54%,transparent 54%),
+    linear-gradient(180deg,transparent 46%,#fff 46%,#fff 54%,transparent 54%),
+    #012169;
+}
+.lang-flag--fr{background:linear-gradient(90deg,#002395 0 33.33%,#fff 33.33% 66.66%,#ED2939 66.66%)}
+.lang-flag--de{background:linear-gradient(180deg,#000 0 33.33%,#DD0000 33.33% 66.66%,#FFCE00 66.66%)}
+.lang-dd--mob{margin:12px 0 4px}
+
+.ham{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:6px;
+}
+.ham span{display:block;width:22px;height:1.5px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
+.ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0}
+.ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ═══════════════════════════════════════════
+   MOBILE NAV
+═══════════════════════════════════════════ */
+.mob{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(13,31,64,0.98);
+  backdrop-filter:blur(24px);
+  z-index:8900;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:28px;
+}
+.mob.open{display:flex}
+.mob a{color:var(--white);text-decoration:none;font-size:26px;font-weight:800;transition:color .2s}
+.mob a:hover{color:var(--gold)}
+.mob-x{position:absolute;top:24px;right:24px;font-size:28px;cursor:pointer;color:var(--t3);background:none;border:none;transition:color .2s}
+.mob-x:hover{color:var(--white)}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:130px 6% 80px;
+  overflow:visible;
+}
+
+.hero-glow-r{
+  position:absolute;
+  right:0;top:50%;transform:translateY(-50%);
+  width:580px;height:600px;
+  background:radial-gradient(ellipse,rgba(59,130,246,0.09) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.hero-inner{
+  display:flex;align-items:center;
+  gap:70px;width:100%;
+  animation:edgeUp .88s ease both;
+}
+@keyframes edgeUp{
+  from{opacity:0;transform:translateY(34px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── PHONE (LEFT) ── */
+.phone-col{
+  flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:8px 20px 20px 8px;
+}
+.welcome-tag{
+  font-size:10px;font-weight:700;letter-spacing:2.8px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;
+}
+.welcome-caption{
+  margin-top:14px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);
+  text-align:center;min-height:18px;letter-spacing:.3px;
+}
+.welcome-dots{display:flex;gap:6px;margin-top:10px;justify-content:center;flex-wrap:wrap;max-width:280px}
+.welcome-dots button{
+  width:7px;height:7px;border-radius:50%;border:none;padding:0;
+  background:rgba(255,255,255,0.28);cursor:pointer;
+  transition:background .2s,transform .2s;
+}
+.welcome-dots button.active{background:var(--gold);transform:scale(1.15)}
+.welcome-dots button:hover{background:rgba(200,168,64,0.65)}
+
+.phone{
+  width:300px;
+  background:var(--bg3);
+  border:1.5px solid var(--blue);
+  border-radius:44px;
+  padding:12px 9px;
+  box-shadow:
+    7px 7px 0 var(--gold),
+    0 0 26px rgba(59,130,246,0.3),
+    0 44px 80px rgba(0,0,0,0.55);
+  animation:tiltFloat 6s ease-in-out infinite;
+}
+@keyframes tiltFloat{
+  0%,100%{transform:rotate(-4deg) translateY(0px)}
+  50%    {transform:rotate(-4deg) translateY(-11px)}
+}
+
+.p-notch{width:76px;height:18px;background:#000;border-radius:0 0 11px 11px;margin:0 auto 6px}
+.p-screen{background:#fff;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;min-height:620px;position:relative}
+
+.p-carousel{position:relative;flex:1;min-height:620px;width:100%}
+.p-slide{
+  position:absolute;inset:0;
+  opacity:0;visibility:hidden;
+  transition:opacity .65s ease;
+  display:flex;flex-direction:column;
+  overflow:hidden;background:#fff;
+}
+.p-slide.active{opacity:1;visibility:visible;z-index:1}
+.p-slide--img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+
+.p-status{background:#050D1F;display:flex;justify-content:space-between;align-items:center;padding:7px 14px 5px;font-size:10px;font-weight:700;color:#fff;font-family:var(--font)}
+.p-sr{display:flex;align-items:center;gap:5px;font-size:9px}
+.p-bat{background:#fff;color:#000;border-radius:2px;padding:1px 4px;font-size:8px;font-weight:800}
+
+.p-header{
+  position:relative;
+  background:
+    repeating-conic-gradient(from -90deg at 50% 42%, transparent 0deg, transparent 7.5deg, rgba(147,197,253,0.055) 7.5deg, rgba(147,197,253,0.055) 8.5deg),
+    radial-gradient(ellipse 95% 110% at 50% -5%, rgba(96,165,250,0.38) 0%, rgba(30,64,175,0.22) 38%, transparent 68%),
+    linear-gradient(180deg,#050c1c 0%,#0a1830 55%,#0d1f40 100%);
+  padding:8px 14px 0;
+}
+.p-bar{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px}
+.p-ico{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(6,12,26,0.72);
+  border:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;flex-shrink:0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.06),0 2px 6px rgba(0,0,0,0.25);
+}
+.p-ico svg{width:14px;height:14px;display:block;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.p-nx-logo{
+  width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  box-shadow:0 0 18px rgba(59,130,246,0.6),0 0 6px rgba(147,197,253,0.45),0 3px 10px rgba(0,0,0,0.4);
+  border:1.5px solid rgba(191,219,254,0.45);
+}
+.nx-mark{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.p-bar-r{display:flex;gap:8px;align-items:center}
+.p-header-curve{
+  position:relative;height:16px;margin:0 -14px 0;
+}
+.p-header-curve::before{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:linear-gradient(90deg,transparent 0%,rgba(147,197,253,0.35) 18%,rgba(224,242,254,0.98) 50%,rgba(147,197,253,0.35) 82%,transparent 100%);
+  border-radius:0 0 50% 50%/0 0 100% 100%;
+  box-shadow:0 0 14px rgba(96,165,250,0.85),0 0 4px rgba(191,219,254,0.9);
+}
+.p-header-curve::after{
+  content:'';position:absolute;left:8%;right:8%;bottom:-1px;height:12px;
+  background:radial-gradient(ellipse 100% 100% at 50% 0%,rgba(59,130,246,0.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+.p-body{flex:1;background:#fff;overflow:hidden}
+
+.p-profile{padding:14px 10px 6px;text-align:center;background:#fff}
+.p-name{font-family:var(--font);font-size:24px;font-weight:800;color:#0D1F40;line-height:1.1;margin-bottom:4px;letter-spacing:-0.02em}
+.p-usub{font-size:9px;color:#64748b;margin-bottom:10px;font-weight:400;letter-spacing:0.04em}
+.p-avatar{
+  width:62px;height:62px;border-radius:16px;
+  background:linear-gradient(145deg,#9333ea,#7c3aed);
+  margin:0 auto;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:800;color:#fff;
+  box-shadow:0 4px 14px rgba(124,58,237,0.35);
+}
+
+.p-ai{
+  margin:8px 10px 6px;
+  background:linear-gradient(135deg,#050d1f,#0f2249);
+  border-radius:999px;padding:7px 8px 7px 10px;
+  display:flex;align-items:center;gap:7px;
+  border:1px solid rgba(59,130,246,0.25);
+}
+.p-aid{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,#3B82F6,#1D4ED8);
+  display:flex;align-items:center;justify-content:center;
+  font-size:7px;font-weight:800;color:#fff;flex-shrink:0;
+}
+.p-aiph{font-size:8px;color:rgba(255,255,255,0.88);flex:1;line-height:1.3}
+.p-aiph strong{font-weight:700;color:#fff}
+.p-mic{
+  width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,#3B82F6,#2563EB);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#fff;flex-shrink:0;
+}
+
+.p-chips{display:flex;gap:5px;padding:4px 10px 8px;overflow-x:auto;scrollbar-width:none;background:#fff}
+.p-chip{
+  font-size:8px;font-weight:700;padding:4px 10px;border-radius:999px;
+  white-space:nowrap;flex-shrink:0;
+  border:1px solid #bfdbfe;color:#1e40af;background:#fff;cursor:pointer;
+}
+.p-chip.on{background:#3B82F6;color:#fff;border-color:#3B82F6}
+
+.p-quick-row{display:flex;gap:5px;padding:0 10px 8px;overflow-x:auto;scrollbar-width:none;background:#fff}
+.p-qcard{
+  flex:1;min-width:86px;
+  background:linear-gradient(145deg,#0c2060,#1a3a8a);
+  border-radius:10px;padding:7px 6px;
+  display:flex;align-items:center;gap:4px;
+  border:1px solid rgba(59,130,246,0.2);
+}
+.p-qic{font-size:10px;flex-shrink:0;opacity:0.95}
+.p-qlb{font-size:6.5px;font-weight:700;color:#fff;line-height:1.2;flex:1}
+.p-qarr{font-size:9px;color:rgba(255,255,255,0.55);flex-shrink:0}
+
+.p-feed{display:flex;gap:6px;padding:0 10px 10px;overflow-x:auto;scrollbar-width:none;background:#fff;position:relative}
+.p-feed-col{flex:0 0 68px}
+.p-feed-hd{font-size:6.5px;font-weight:800;color:#0D1F40;text-align:center;margin-bottom:4px;line-height:1.2;min-height:16px}
+.p-feed-card{
+  border:1.5px solid #93c5fd;border-radius:10px;overflow:hidden;background:#fff;
+  box-shadow:0 1px 4px rgba(59,130,246,0.08);
+}
+.p-feed-img{height:72px;position:relative;overflow:hidden}
+.p-feed-img--suit{
+  background:linear-gradient(180deg,#e8eef8 0%,#dbeafe 100%);
+}
+.p-feed-img--suit::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 35% 25% at 50% 18%,#fcd9b8 0%,transparent 100%),
+    linear-gradient(180deg,transparent 20%,#1e3a8a 20%,#1e40af 55%,#1e3a8a 100%);
+}
+.p-feed-img--suit::after{
+  content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  width:28px;height:32px;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,#1e40af,#172554);
+  box-shadow:-14px 0 0 -2px #1e40af,14px 0 0 -2px #1e40af;
+}
+.p-feed-img--empty{
+  background:linear-gradient(180deg,#eff6ff,#dbeafe);
+  border-bottom:1px solid #bfdbfe;
+}
+.p-feed-img--bag{
+  background:linear-gradient(180deg,#f1f5f9,#e2e8f0);
+}
+.p-feed-img--bag::after{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-45%);
+  width:26px;height:30px;border-radius:6px;
+  background:linear-gradient(145deg,#334155,#0f172a);
+  box-shadow:inset 0 -8px 0 rgba(255,255,255,0.06);
+}
+.p-feed-img--bag::before{
+  content:'';position:absolute;top:28%;left:50%;transform:translateX(-50%);
+  width:14px;height:8px;border:2px solid #475569;border-bottom:none;border-radius:6px 6px 0 0;
+}
+.p-feed-img--friends{background:linear-gradient(180deg,#ecfdf5,#d1fae5)}
+.p-feed-title{font-size:6px;font-weight:800;color:#0D1F40;padding:4px 4px 1px;line-height:1.25}
+.p-feed-sub{font-size:5px;color:#64748b;padding:0 4px 3px;line-height:1.3}
+.p-feed-dots{display:flex;justify-content:center;gap:2px;padding:0 0 4px}
+.p-feed-dots i{display:block;width:3px;height:3px;border-radius:50%;background:#cbd5e1;font-style:normal}
+.p-feed-dots i.on{background:#3B82F6}
+
+.p-fab-wrap{position:relative}
+.p-fab{
+  position:absolute;right:-2px;bottom:18px;
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(145deg,#3B82F6,#2563EB);
+  border:2px solid #fff;
+  box-shadow:0 4px 12px rgba(59,130,246,0.45);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;z-index:2;
+}
+.p-fab-lb{
+  position:absolute;right:-4px;bottom:2px;
+  font-size:5px;font-weight:700;color:#3B82F6;
+  white-space:nowrap;z-index:2;
+}
+
+.p-bnav{
+  background:linear-gradient(180deg,#dce8f5 0%,#eef4fa 38%,#f7fafc 62%,#e9f0f7 100%);
+  border-top:1px solid #b8cce0;
+  display:flex;align-items:flex-end;justify-content:stretch;
+  padding:0;position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.65);
+}
+.p-bn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  gap:3px;min-width:0;padding:5px 2px 4px;
+  border-right:1px solid rgba(148,163,184,0.38);
+}
+.p-bn:last-child{border-right:none}
+.p-bni{width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:#2f3f52}
+.p-bni svg{width:100%;height:100%;display:block}
+.p-bnl{font-size:5.5px;font-weight:600;color:#2f3f52;letter-spacing:.02em;text-align:center;line-height:1.1}
+.p-bn.on{padding-bottom:3px}
+.p-bn.on .p-bnl{color:#1e40af;font-weight:700}
+.p-home-ring{
+  width:38px;height:38px;border-radius:50%;overflow:hidden;
+  padding:0;border:none;background:transparent;
+  box-shadow:0 0 16px rgba(37,99,235,0.65),0 2px 8px rgba(30,58,138,0.35);
+  margin:-11px auto 1px;
+}
+
+.p-sysnav{
+  display:flex;justify-content:space-around;align-items:center;
+  padding:5px 20px 6px;background:#fff;
+  border-top:1px solid #e2e8f0;color:#475569;font-size:12px;
+}
+
+/* ── HERO TEXT (RIGHT) ── */
+.hero-text{flex:1}
+
+.h-eyebrow{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:11px;font-weight:700;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:22px;
+}
+.h-eyebrow::before{content:'';display:block;width:30px;height:1.5px;background:var(--gold);flex-shrink:0}
+
+.hero-h1{
+  font-size:clamp(42px,5.8vw,70px);
+  font-weight:800;line-height:1.05;
+  letter-spacing:-2.5px;
+  margin-bottom:24px;
+}
+.h1-thin{font-weight:200;letter-spacing:-1px;opacity:.7}
+.h1-blue{color:var(--blue)}
+.h1-gold{color:var(--gold)}
+
+.hero-desc{
+  font-size:17px;color:var(--t2);line-height:1.78;
+  margin-bottom:34px;max-width:450px;font-weight:300;
+}
+
+/* ── HERO FEATURE CHIPS ── */
+.hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px}
+.hchip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  padding:5px 13px;border-radius:3px;white-space:nowrap;flex-shrink:0;
+}
+.hchip-gold{background:rgba(200,168,64,0.12);border:0.5px solid rgba(200,168,64,0.35);color:var(--gold)}
+.hchip-blue{background:rgba(59,130,246,0.1);border:0.5px solid rgba(59,130,246,0.28);color:var(--blu-lt)}
+.hchip-dim{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(147,197,253,.6)}
+
+.ai-bar{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,26,54,0.92);
+  border:1px solid var(--brd);
+  border-radius:4px;padding:8px 8px 8px 16px;
+  margin-bottom:26px;max-width:470px;
+  transition:border-color .25s,box-shadow .25s;
+}
+.ai-bar:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,0.13)}
+.ai-nx{
+  width:32px;height:32px;border-radius:3px;
+  background:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:10px;color:#fff;flex-shrink:0;
+}
+.ai-bar input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--white);font-size:14px;font-family:var(--font);
+}
+.ai-bar input::placeholder{color:rgba(147,197,253,.38)}
+.ai-bar button{
+  background:var(--blue);color:#fff;border:none;
+  padding:9px 20px;border-radius:3px;
+  cursor:pointer;font-weight:700;font-size:13px;
+  font-family:var(--font);letter-spacing:.5px;
+  flex-shrink:0;transition:background .2s;
+}
+.ai-bar button:hover{background:var(--blu-dk)}
+
+.h-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:34px}
+
+.btn-gold{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:3px;
+  background:var(--gold);color:#0a0f1e;
+  text-decoration:none;font-weight:800;font-size:12px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all .22s;
+}
+.btn-gold:hover{background:var(--gld-lt);transform:translateY(-2px);box-shadow:0 8px 26px var(--gld-gl)}
+
+.btn-line{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 28px;border-radius:3px;
+  background:transparent;
+  border:1px solid rgba(147,197,253,.28);
+  color:rgba(147,197,253,.8);
+  text-decoration:none;font-weight:300;font-size:13px;
+  letter-spacing:.3px;cursor:pointer;transition:all .22s;
+}
+.btn-line:hover{border-color:rgba(147,197,253,.7);color:var(--white);transform:translateY(-2px)}
+
+.store-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sbadge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#000;border:1px solid rgba(255,255,255,0.28);
+  border-radius:8px;padding:8px 16px 8px 12px;
+  min-height:44px;box-sizing:border-box;
+  text-decoration:none;color:#fff;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.sbadge:hover{border-color:rgba(255,255,255,0.45);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,0.45)}
+.sbadge .si{flex-shrink:0;width:26px;height:28px;display:flex;align-items:center;justify-content:center}
+.sbadge .si svg{width:100%;height:100%;display:block}
+.sbadge--play .si{width:28px;height:28px}
+.sbadge .st{display:flex;flex-direction:column;justify-content:center;line-height:1.15}
+.sbadge .st .sub{font-size:10px;font-weight:400;color:#fff;display:block;letter-spacing:.01em}
+.sbadge .st .main{font-weight:600;font-size:15px;display:block;color:#fff;letter-spacing:-.02em}
+.sbadge--play .st .sub{font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.sbadge--play .st .main{font-size:15px;font-weight:500}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:11px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:14px;
+}
+.eyebrow::before{content:'';display:block;width:24px;height:1.5px;background:var(--gold);flex-shrink:0}
+
+.s-title{
+  font-size:clamp(28px,4vw,46px);font-weight:800;
+  line-height:1.1;letter-spacing:-0.8px;margin-bottom:16px;
+}
+.s-sub{font-size:16px;color:var(--t2);line-height:1.72;font-weight:300}
+.s-div{height:1px;margin:0 6%;background:linear-gradient(90deg,transparent,rgba(13,31,64,0.15),transparent)}
+
+.how{position:relative;z-index:1;padding:110px 6%;text-align:center;background:var(--bg2)}
+.how .s-title,.feats .s-title{color:var(--on-light)}
+.how .s-sub,.feats-hd .s-sub{color:var(--on-light-muted)}
+
+.steps{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;margin-top:56px;
+  border:1px solid var(--brd);border-radius:16px;overflow:hidden;
+}
+
+.step{
+  background:var(--card);
+  padding:44px 32px;position:relative;
+  transition:background .3s,transform .3s;
+  border-right:1px solid var(--brd);
+}
+.step:last-child{border-right:none}
+.step:hover{background:var(--card2)}
+
+.step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gld-lt));opacity:0;transition:opacity .3s}
+.step:hover::before{opacity:1}
+
+.step-n{
+  font-size:64px;font-weight:800;
+  color:rgba(59,130,246,0.08);
+  position:absolute;top:14px;right:18px;
+  line-height:1;letter-spacing:-3px;pointer-events:none;
+  transition:color .3s;
+}
+.step:hover .step-n{color:rgba(200,168,64,0.1)}
+
+.step-ico{
+  width:54px;height:54px;border-radius:12px;
+  background:rgba(59,130,246,0.1);
+  border:1px solid rgba(59,130,246,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin:0 auto 22px;
+  transition:background .3s,border-color .3s,box-shadow .3s;
+}
+.step:hover .step-ico{
+  background:rgba(200,168,64,0.1);
+  border-color:rgba(200,168,64,0.3);
+  box-shadow:0 0 16px rgba(200,168,64,0.12);
+}
+
+.step h3{font-size:18px;font-weight:800;margin-bottom:12px;letter-spacing:-.3px}
+.step p{font-size:14px;color:var(--t2);line-height:1.68;font-weight:300}
+
+.feats{position:relative;z-index:1;padding:80px 6% 110px;background:var(--bg2)}
+.feats-hd{text-align:center;margin-bottom:56px}
+.feats-hd .s-sub{margin:0 auto;max-width:520px}
+
+.feats-showcase{
+  display:grid;grid-template-columns:1fr 300px;
+  gap:44px;align-items:start;max-width:1180px;margin:0 auto;
+}
+
+.feat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;border:1px solid var(--brd);border-radius:16px;overflow:hidden;
+}
+
+.feat{
+  background:var(--card);
+  border-right:1px solid var(--brd);
+  border-bottom:1px solid var(--brd);
+  padding:32px 26px;position:relative;
+  transition:background .25s,box-shadow .25s;
+  cursor:pointer;user-select:none;
+}
+.feat:nth-child(3),.feat:nth-child(6){border-right:none}
+.feat:nth-child(4),.feat:nth-child(5),.feat:nth-child(6){border-bottom:none}
+.feat:hover{background:var(--card2)}
+.feat.active{
+  background:var(--card2);
+  box-shadow:inset 0 0 0 2px var(--gold);
+  z-index:1;
+}
+
+.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);opacity:0;transition:opacity .3s}
+.feat:hover::before,.feat.active::before{opacity:1}
+
+.feat-phone-col{
+  display:flex;flex-direction:column;align-items:center;
+  position:sticky;top:96px;
+}
+.phone--feat{
+  width:272px;
+  animation:none;
+  transform:rotate(-3deg);
+  box-shadow:6px 6px 0 var(--gold),0 0 22px rgba(59,130,246,0.28),0 32px 60px rgba(0,0,0,0.4);
+}
+.phone--feat .p-screen{min-height:500px}
+.fp-carousel{position:relative;flex:1;min-height:500px;width:100%}
+.fp-slide{
+  position:absolute;inset:0;
+  opacity:0;visibility:hidden;
+  transition:opacity .45s ease;
+  overflow:hidden;background:#fff;
+}
+.fp-slide.active{opacity:1;visibility:visible;z-index:1}
+.fp-slide--img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+
+.fp-demo-video{
+  width:100%;height:100%;object-fit:cover;object-position:top center;
+  display:block;background:#0d1f40;
+}
+.fp-demo-video{display:none}
+.fp-demo-video[data-playing]{display:block}
+.fp-slide:has(.fp-demo-video[data-playing]) .fp-story-view{display:none!important}
+.fp-demo-video[hidden],.fp-story-view[hidden]{display:none!important}
+.fp-story-view{position:absolute;inset:0;background:#fff;display:block}
+.fp-story-frame{
+  position:absolute;inset:0;opacity:0;visibility:hidden;
+  transition:opacity .4s ease;display:flex;flex-direction:column;
+}
+.fp-story-frame.active{opacity:1;visibility:visible;z-index:1}
+.fp-story-media{flex:1;min-height:0;position:relative;background:#f1f5f9}
+.fp-story-media img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.fp-story-mock{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 14px;text-align:center;background:linear-gradient(180deg,#f8fafc,#eef2ff);
+}
+.fp-story-mock .fp-mock-ico{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+  color:#fff;font-size:24px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;box-shadow:0 8px 24px rgba(59,130,246,0.35);
+}
+.fp-story-mock .fp-mock-ico.pulse{animation:fpPulse 1.2s ease-in-out infinite}
+@keyframes fpPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.fp-story-mock p{font-size:10px;color:#475569;line-height:1.5;max-width:160px}
+.fp-story-tags{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px}
+.fp-story-tags span{
+  font-size:8px;font-weight:700;padding:5px 9px;border-radius:999px;
+  background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;
+}
+.fp-story-bar{
+  flex-shrink:0;padding:10px 12px 12px;
+  background:linear-gradient(180deg,#0a1830,#0d1f40);color:#fff;
+}
+.fp-story-progress{display:flex;gap:4px;margin-bottom:8px}
+.fp-story-progress i{
+  flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.28);
+  transition:background .25s;
+}
+.fp-story-progress i.on{background:var(--gold)}
+.fp-story-step{font-size:7px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.fp-story-title{font-size:10px;font-weight:700;line-height:1.35}
+.feat-phone-hint{
+  margin-top:6px;font-size:10px;color:var(--on-light-muted);
+  text-align:center;opacity:.85;
+}
+
+.fp-mock{height:100%;background:#fff;display:flex;flex-direction:column;overflow:hidden}
+.fp-mock-hd{
+  background:linear-gradient(180deg,#0a1830,#0d1f40);
+  padding:8px 12px 10px;color:#fff;
+}
+.fp-mock-hd h4{font-size:11px;font-weight:700;margin:0 0 2px}
+.fp-mock-hd p{font-size:8px;color:rgba(255,255,255,0.65);margin:0}
+.fp-mock-body{flex:1;padding:10px;overflow:hidden}
+.fp-ai-bar{
+  background:linear-gradient(135deg,#050d1f,#0f2249);
+  border-radius:999px;padding:8px 10px;margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;border:1px solid rgba(59,130,246,0.25);
+}
+.fp-ai-bar span{font-size:8px;color:#fff;flex:1}
+.fp-ai-bar strong{color:#93c5fd}
+.fp-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.fp-chip{font-size:7px;font-weight:700;padding:4px 8px;border-radius:999px;border:1px solid #bfdbfe;color:#1e40af}
+.fp-chip.on{background:#3B82F6;color:#fff;border-color:#3B82F6}
+.fp-cards{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.fp-card{
+  background:linear-gradient(145deg,#0c2060,#1a3a8a);
+  border-radius:8px;padding:8px 6px;font-size:7px;font-weight:700;color:#fff;line-height:1.3;
+}
+.fp-scan{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:16px;
+  background:radial-gradient(ellipse at 50% 30%,rgba(124,58,237,0.2),transparent 60%),#f8fafc;
+}
+.fp-scan-ring{
+  width:72px;height:72px;border-radius:50%;
+  border:2px dashed #7c3aed;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:10px;
+  background:rgba(124,58,237,0.08);
+}
+.fp-scan p{font-size:9px;color:#64748b;line-height:1.5;max-width:140px}
+.fp-scan .fp-btn{
+  margin-top:12px;padding:7px 14px;border-radius:999px;
+  background:linear-gradient(135deg,#7c3aed,#5b21b6);
+  color:#fff;font-size:8px;font-weight:700;border:none;
+}
+.fp-cal-hd{font-size:11px;font-weight:800;color:#0D1F40;margin-bottom:8px}
+.fp-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:7px;text-align:center}
+.fp-cal-grid .dow{color:#94a3b8;font-weight:600;padding-bottom:4px}
+.fp-cal-grid .day{padding:4px 0;border-radius:4px;color:#334155}
+.fp-cal-grid .day.ev{background:#3B82F6;color:#fff;font-weight:700}
+.fp-cal-grid .day.today{box-shadow:inset 0 0 0 1.5px #3B82F6}
+.fp-event{
+  margin-top:8px;padding:8px;border-radius:8px;
+  background:#eff6ff;border:1px solid #bfdbfe;
+  font-size:8px;color:#1e40af;line-height:1.4;
+}
+.feat-phone-caption{
+  margin-top:14px;font-size:12px;font-weight:600;
+  color:var(--on-light-muted);letter-spacing:.4px;text-align:center;
+}
+
+.feat-ico{
+  width:48px;height:48px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:18px;
+  transition:transform .28s;
+}
+.feat:hover .feat-ico{transform:scale(1.1)}
+
+.fi-b{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2)}
+.fi-g{background:rgba(200,168,64,0.1);border:1px solid rgba(200,168,64,0.2)}
+.fi-s{background:rgba(147,197,253,0.1);border:1px solid rgba(147,197,253,0.18)}
+.fi-t{background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.18)}
+.fi-p{background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.18)}
+.fi-e{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.18)}
+
+.feat h3{font-size:16px;font-weight:800;margin-bottom:10px;letter-spacing:-.2px}
+.feat p{font-size:13.5px;color:var(--t2);line-height:1.65;font-weight:300}
+
+.stats{position:relative;z-index:1;padding:0 6% 90px;background:var(--bg2)}
+
+.stats-wrap{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:16px;padding:56px 60px;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  position:relative;overflow:hidden;
+}
+.stats-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--blue),var(--gold))}
+.stats-wrap::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 150%,rgba(200,168,64,0.06) 0%,transparent 65%);pointer-events:none}
+
+.stat{text-align:center;padding:0 24px;position:relative;z-index:1}
+.stat+.stat{border-left:1px solid var(--brd)}
+
+.stat-n{
+  font-size:54px;font-weight:800;
+  color:var(--white);line-height:1;
+  margin-bottom:9px;letter-spacing:-2px;
+}
+.stat-n em{color:var(--gold);font-style:normal}
+.stat-lb{font-size:13px;color:var(--t3);font-weight:300;letter-spacing:.5px}
+
+.cta{position:relative;z-index:1;padding:0 6% 110px;background:var(--bg2)}
+
+.cta-box{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:16px;padding:90px 56px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-top{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),var(--gld-lt),var(--gold),transparent)}
+.cta-bot{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--brd2),transparent)}
+.cta-radial{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:350px;border-radius:50%;background:radial-gradient(ellipse,rgba(200,168,64,0.07) 0%,transparent 65%);pointer-events:none}
+
+.cta-box h2{
+  font-size:clamp(30px,4.5vw,54px);font-weight:800;
+  margin-bottom:14px;letter-spacing:-2px;
+  position:relative;
+}
+.cta-box p{font-size:18px;color:var(--t2);margin-bottom:42px;position:relative;font-weight:300}
+
+footer{
+  position:relative;z-index:1;
+  background:var(--bg2);border-top:1px solid rgba(13,31,64,0.12);
+  padding:60px 6% 34px;
+}
+
+.ft-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:52px;margin-bottom:52px}
+
+.ft-brand .nav-logo{margin-bottom:14px;display:inline-flex}
+.ft-brand .nav-word{color:var(--on-light)}
+.ft-brand p{font-size:14px;color:var(--on-light-muted);max-width:260px;line-height:1.7;font-weight:300}
+
+.ft-col h4{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:20px;opacity:.75;
+}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:11px}
+.ft-col a{color:var(--on-light-muted);text-decoration:none;font-size:14px;font-weight:300;transition:color .2s}
+.ft-col a:hover{color:var(--on-light)}
+
+.ft-bot{
+  border-top:1px solid rgba(13,31,64,0.12);padding-top:28px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:16px;
+}
+.ft-bot p{font-size:13px;color:var(--on-light-muted);font-weight:300}
+
+.socials,.social-links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.socials a,.social-links a{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;border:none;color:#fff;flex-shrink:0;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.socials a svg,.social-links a svg{width:18px;height:18px;display:block}
+.socials a:hover,.social-links a:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.22)}
+.soc--tiktok{background:#010101}
+.soc--instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+.soc--x{background:#000}
+.soc--pinterest{background:#E60023}
+.soc--facebook{background:#1877F2}
+.soc--whatsapp{background:#25D366}
+
+@media(max-width:1120px){ .phone{width:280px} }
+
+@media(max-width:1024px){
+  .steps{grid-template-columns:1fr 1fr}
+  .step:nth-child(2){border-right:none}
+  .step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--brd)}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .feat:nth-child(2){border-right:none}
+  .feat:nth-child(4){border-right:none}
+  .feat:nth-child(3){border-right:1px solid var(--brd)}
+  .feat:nth-child(5){border-bottom:1px solid var(--brd)}
+  .feat:nth-child(6){border-bottom:none}
+  .feats-showcase{grid-template-columns:1fr;gap:36px}
+  .feat-phone-col{position:relative;top:auto}
+  .stats-wrap{padding:40px 28px}
+  .stat-n{font-size:42px}
+  .ft-top{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:920px){
+  .hero-inner{flex-direction:column;align-items:center;text-align:center;gap:50px}
+  .hero-desc{margin:0 auto 28px}
+  .ai-bar{max-width:100%}
+  .h-btns{justify-content:center}
+  .store-row{justify-content:center}
+  .h-eyebrow{justify-content:center}
+  .h-eyebrow::before{display:none}
+}
+
+@media(max-width:768px){
+  .ham{display:flex}
+  .nav-links,.nav-actions{display:none}
+  .nav{padding:18px 5%}
+  .nav.scrolled{padding:12px 5%}
+  .hero{padding:120px 5% 70px}
+  .how{padding:80px 5%}
+  .feats{padding:60px 5% 90px}
+  .steps{grid-template-columns:1fr;border-radius:12px}
+  .step{border-right:none;border-bottom:1px solid var(--brd)}
+  .step:last-child{border-bottom:none}
+  .feat-grid{grid-template-columns:1fr;border-radius:12px}
+  .feat{border-right:none;border-bottom:1px solid var(--brd)}
+  .feat:nth-child(3){border-right:none}
+  .feat:last-child{border-bottom:none}
+  .stats-wrap{grid-template-columns:1fr;padding:36px 24px;gap:32px;border-radius:12px}
+  .stat+.stat{border-left:none;border-top:1px solid var(--brd);padding-top:32px}
+  .cta-box{padding:52px 24px}
+  .ft-top{grid-template-columns:1fr;gap:28px}
+  .ft-bot{flex-direction:column;text-align:center}
+  .stats{padding:0 5% 70px}
+  .cta{padding:0 5% 80px}
+  .s-div{margin:0 5%}
+}
+
+@media(max-width:480px){
+  .phone{width:230px}
+  .hero-h1{letter-spacing:-1.5px}
+}
+</style>
+</head>
+<body>
+
+<div class="amb amb1"></div>
+<div class="amb amb2"></div>
+<div class="amb amb3"></div>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-ring"><img src="assets/nx-logo.png" alt="NX" class="nx-mark"/></div>
+    <span class="nav-word">Nikonyx</span>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="pages/features.html">Features</a></li>
+    <li><a href="pages/apps.html">App</a></li>
+    <li><a href="pages/help_center.html">Help</a></li>
+    <li><a href="pages/contact.html">Contact</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <div class="lang-dd" data-lang-dd>
+      <div class="lang-dd-panel">
+        <button type="button" class="lang-dd-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span class="lang-flag lang-flag--en lang-dd-flag" aria-hidden="true"></span>
+          <span class="lang-dd-label">English</span>
+          <svg class="lang-dd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <ul class="lang-dd-menu" role="listbox" hidden>
+          <li><button type="button" class="lang-dd-opt active" data-lang="en" role="option" aria-selected="true"><span class="lang-flag lang-flag--en" aria-hidden="true"></span>English</button></li>
+          <li><button type="button" class="lang-dd-opt" data-lang="fr" role="option" aria-selected="false"><span class="lang-flag lang-flag--fr" aria-hidden="true"></span>Français</button></li>
+          <li><button type="button" class="lang-dd-opt" data-lang="de" role="option" aria-selected="false"><span class="lang-flag lang-flag--de" aria-hidden="true"></span>Deutsch</button></li>
+        </ul>
+      </div>
+    </div>
+    <a href="pages/apps.html" class="nav-btn">Start Now</a>
+  </div>
+
+  <button class="ham" id="ham" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob" id="mob">
+  <button class="mob-x" id="mobX" aria-label="Close">&#x2715;</button>
+  <a href="index.html">Home</a>
+  <a href="pages/features.html">Features</a>
+  <a href="pages/apps.html">App</a>
+  <a href="pages/help_center.html">Help</a>
+  <a href="pages/contact.html">Contact</a>
+  <div class="lang-dd lang-dd--mob" data-lang-dd>
+    <div class="lang-dd-panel">
+      <button type="button" class="lang-dd-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+        <span class="lang-flag lang-flag--en lang-dd-flag" aria-hidden="true"></span>
+        <span class="lang-dd-label">English</span>
+        <svg class="lang-dd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul class="lang-dd-menu" role="listbox" hidden>
+        <li><button type="button" class="lang-dd-opt active" data-lang="en" role="option" aria-selected="true"><span class="lang-flag lang-flag--en" aria-hidden="true"></span>English</button></li>
+        <li><button type="button" class="lang-dd-opt" data-lang="fr" role="option" aria-selected="false"><span class="lang-flag lang-flag--fr" aria-hidden="true"></span>Français</button></li>
+        <li><button type="button" class="lang-dd-opt" data-lang="de" role="option" aria-selected="false"><span class="lang-flag lang-flag--de" aria-hidden="true"></span>Deutsch</button></li>
+      </ul>
+    </div>
+  </div>
+  <a href="pages/apps.html" class="nav-btn" style="margin-top:12px">Start Now</a>
+</div>
+
+<section class="hero">
+  <div class="hero-glow-r"></div>
+  <div class="hero-inner">
+
+    <div class="phone-col welcome-screen">
+      <p class="welcome-tag">Welcoming Screen</p>
+      <div class="phone">
+        <div class="p-notch"></div>
+        <div class="p-screen">
+          <div class="p-carousel" id="phoneCarousel" aria-label="App welcoming screen preview">
+
+          <div class="p-slide active" data-welcome="Home Dashboard">
+          <div class="p-status">
+            <span>10:50</span>
+            <div class="p-sr"><span>&#128246;</span><span>&#9679;</span><span class="p-bat">90%</span></div>
+          </div>
+
+          <div class="p-header">
+            <div class="p-bar">
+              <div class="p-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+              </div>
+              <div class="p-nx-logo"><img src="assets/nx-logo.png" alt="NX" class="nx-mark"/></div>
+              <div class="p-bar-r">
+                <div class="p-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 3a5 5 0 00-5 5v2.2c0 .8-.3 1.6-.9 2.2L4 14.5V16h16v-1.5l-2.1-2.1a3.1 3.1 0 01-.9-2.2V8a5 5 0 00-5-5z"/><path d="M10 19a2 2 0 004 0"/></svg>
+                </div>
+                <div class="p-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="p-header-curve"></div>
+          </div>
+
+          <div class="p-body">
+            <div class="p-profile">
+              <h2 class="p-name">Ezel</h2>
+              <p class="p-usub">— Your NX Style Assistant —</p>
+              <div class="p-avatar">E</div>
+            </div>
+
+            <div class="p-ai">
+              <div class="p-aid">NX</div>
+              <div class="p-aiph">Ask NX for <strong>Outfit Suggestions</strong></div>
+              <div class="p-mic">&#127908;</div>
+            </div>
+
+            <div class="p-chips">
+              <div class="p-chip on">Date</div>
+              <div class="p-chip">Wedding</div>
+              <div class="p-chip">Dining Out</div>
+              <div class="p-chip">Daily</div>
+              <div class="p-chip">Working</div>
+            </div>
+
+            <div class="p-quick-row">
+              <div class="p-qcard">
+                <span class="p-qic">&#128100;</span>
+                <span class="p-qlb">Create Outfits</span>
+                <span class="p-qarr">&#8250;</span>
+              </div>
+              <div class="p-qcard">
+                <span class="p-qic">&#128278;</span>
+                <span class="p-qlb">Saved Outfits</span>
+                <span class="p-qarr">&#8250;</span>
+              </div>
+              <div class="p-qcard">
+                <span class="p-qic">&#128722;</span>
+                <span class="p-qlb">Shopping</span>
+                <span class="p-qarr">&#8250;</span>
+              </div>
+            </div>
+
+            <div class="p-feed p-fab-wrap">
+              <div class="p-feed-col">
+                <div class="p-feed-hd">Inspiration</div>
+                <div class="p-feed-card">
+                  <div class="p-feed-img p-feed-img--suit"></div>
+                  <div class="p-feed-title">Elevated Formal</div>
+                  <div class="p-feed-sub">Navy suit · Sha...</div>
+                  <div class="p-feed-dots"><i class="on"></i><i></i><i></i></div>
+                </div>
+              </div>
+              <div class="p-feed-col">
+                <div class="p-feed-hd">Fits Wardrobe</div>
+                <div class="p-feed-card">
+                  <div class="p-feed-img p-feed-img--empty"></div>
+                  <div class="p-feed-title">Smart Casual Made Effortl...</div>
+                  <div class="p-feed-sub">Layers · Relaxe...</div>
+                  <div class="p-feed-dots"><i class="on"></i><i></i><i></i></div>
+                </div>
+              </div>
+              <div class="p-feed-col">
+                <div class="p-feed-hd">Trends</div>
+                <div class="p-feed-card">
+                  <div class="p-feed-img p-feed-img--bag"></div>
+                  <div class="p-feed-title">Evening Sophistication</div>
+                  <div class="p-feed-sub">Charcoal · Slim...</div>
+                  <div class="p-feed-dots"><i class="on"></i><i></i><i></i></div>
+                </div>
+              </div>
+              <div class="p-feed-col">
+                <div class="p-feed-hd">Friends Space</div>
+                <div class="p-feed-card">
+                  <div class="p-feed-img p-feed-img--friends"></div>
+                  <div class="p-feed-title">Special... Ga...</div>
+                  <div class="p-feed-sub">Green · Fresh I...</div>
+                  <div class="p-feed-dots"><i class="on"></i><i></i><i></i></div>
+                </div>
+              </div>
+              <div class="p-fab" title="Assistant">&#128172;</div>
+              <span class="p-fab-lb">Assistant</span>
+            </div>
+          </div>
+
+          <div class="p-bnav">
+            <div class="p-bn">
+              <div class="p-bni">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 8h2.5l1.8-2.8h7.4L17.5 8H20a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2v-7a2 2 0 012-2z"/>
+                  <circle cx="12" cy="13" r="3.2"/>
+                </svg>
+              </div>
+              <div class="p-bnl">Try-On</div>
+            </div>
+            <div class="p-bn">
+              <div class="p-bni">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 5c1 0 1.8.8 1.8 1.8 0 .6-.3 1.1-.8 1.4L12 9.2l-1-1c-.5-.3-.8-.8-.8-1.4C10.2 5.8 11 5 12 5z"/>
+                  <path d="M6.5 10.2C4.6 10.2 3 11.4 3 13v1.2h18V13c0-1.6-1.6-2.8-3.5-2.8"/>
+                  <path d="M12 9.2V10.4"/>
+                </svg>
+              </div>
+              <div class="p-bnl">Wardrobe</div>
+            </div>
+            <div class="p-bn on">
+              <div class="p-home-ring"><img src="assets/nx-logo.png" alt="Home" class="nx-mark"/></div>
+              <div class="p-bnl">Home</div>
+            </div>
+            <div class="p-bn">
+              <div class="p-bni">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <circle cx="9" cy="8.2" r="2.6" opacity=".95"/>
+                  <circle cx="15.8" cy="9" r="2.1" opacity=".85"/>
+                  <path d="M4.5 17.8c0-2.3 2-4.1 4.5-4.1s4.5 1.8 4.5 4.1"/>
+                  <path d="M14.2 17.8c0-1.6 1.3-2.9 3-2.9.7 0 1.3.2 1.8.5" opacity=".85"/>
+                </svg>
+              </div>
+              <div class="p-bnl">Friends Space</div>
+            </div>
+            <div class="p-bn">
+              <div class="p-bni">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <g transform="rotate(12 11 12)">
+                    <rect x="7.5" y="4" width="8" height="14" rx="1.5"/>
+                    <path d="M9.5 8.5h5"/>
+                    <path d="M10.2 10h3.6v2.8H10.2z" fill="currentColor" stroke="none"/>
+                  </g>
+                  <path d="M17.2 7.2c1 .5 1.7 1.2 2.2 2.1"/>
+                  <path d="M18 9.6c.6.9.8 1.8.7 2.7"/>
+                  <path d="M17.4 12c-.3.8-.9 1.5-1.6 2"/>
+                </svg>
+              </div>
+              <div class="p-bnl">Outfits</div>
+            </div>
+          </div>
+
+          <div class="p-sysnav">
+            <span>&#9776;</span>
+            <span>&#9634;</span>
+            <span>&#8592;</span>
+          </div>
+          </div>
+
+          <div class="p-slide p-slide--img" data-welcome="AR Fitting Room"><img src="assets/phone-tryon.png" alt="AR Fitting Room"/></div>
+          <div class="p-slide p-slide--img" data-welcome="Wardrobe"><img src="assets/phone-wardrobe.png" alt="Wardrobe"/></div>
+          <div class="p-slide p-slide--img" data-welcome="Your Wardrobe"><img src="assets/phone-wardrobe-items.png" alt="Your Wardrobe"/></div>
+          <div class="p-slide p-slide--img" data-welcome="Style Feed"><img src="assets/phone-style-feed.png" alt="Style Feed"/></div>
+          <div class="p-slide p-slide--img" data-welcome="My Outfits"><img src="assets/phone-outfits.png" alt="My Outfits"/></div>
+          <div class="p-slide p-slide--img" data-welcome="Smart Shopping"><img src="assets/phone-shopping.png" alt="Smart Shopping"/></div>
+
+          </div>
+        </div>
+      </div>
+      <p class="welcome-caption" id="welcomeCaption">Home Dashboard</p>
+      <div class="welcome-dots" id="welcomeDots"></div>
+    </div>
+
+    <div class="hero-text">
+
+      <!-- EYEBROW -->
+      <div class="h-eyebrow">Intelligent fashion. Built for you.</div>
+
+      <!-- H1 -->
+      <h1 class="hero-h1">
+        Your <span class="h1-thin">Real</span> <span class="h1-blue" style="font-size:1.18em;letter-spacing:-3px">Clothes.</span><br>
+        Your <span class="h1-blue">True Size.</span><br>
+        <span class="h1-gold">Your Perfect Look.</span>
+      </h1>
+
+      <!-- DESCRIPTION -->
+      <p class="hero-desc">
+        Scan your body once to unlock your true measurements. Upload your wardrobe
+        and NX builds complete outfits, shops what&rsquo;s missing in sizes that
+        actually fit, lets you try anything on, and shows how every new piece
+        compares with what you already own.
+      </p>
+
+      <!-- FEATURE CHIPS -->
+      <div class="hero-chips">
+        <div class="hchip hchip-gold">360&deg; body scan</div>
+        <div class="hchip hchip-blue">Complete outfits</div>
+        <div class="hchip hchip-gold">Shop your size</div>
+        <div class="hchip hchip-blue">Try-on</div>
+        <div class="hchip hchip-dim">Compare wardrobe</div>
+      </div>
+
+      <!-- AI SEARCH BAR -->
+      <div class="ai-bar">
+        <div class="ai-nx">NX</div>
+        <input type="text" id="searchInput"
+          placeholder="Ask NX — &ldquo;outfit for a wedding in my wardrobe&rdquo;"
+          autocomplete="off"/>
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <!-- CTA BUTTONS -->
+      <div class="h-btns">
+        <a href="pages/apps.html" class="btn-gold">Scan My Body &amp; Start</a>
+        <a href="pages/features.html" class="btn-line">See How It Works</a>
+      </div>
+
+      <!-- STORE BADGES -->
+      <div class="store-row">
+        <a href="#" class="sbadge" aria-label="Download on the App Store">
+          <span class="si" aria-hidden="true">
+            <svg viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <path fill="#FFFFFF" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
+          </span>
+          <div class="st">
+            <span class="sub">Download on the</span>
+            <span class="main">App Store</span>
+          </div>
+        </a>
+        <a href="#" class="sbadge sbadge--play" aria-label="Get it on Google Play">
+          <span class="si" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <path fill="#4285F4" d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12 3.84 21.85C3.34 21.6 3 21.09 3 20.5z"/>
+              <path fill="#34A853" d="M16.81 15.12 6.05 21.34l8.49-8.49 2.27 2.27z"/>
+              <path fill="#FBBC04" d="M16.81 8.88 14.54 11.15 6.05 2.66l10.76 6.22z"/>
+              <path fill="#EA4335" d="M20.16 10.81c.48.28.48.96 0 1.24l-3.35 1.94-2.27-2.27 2.27-2.27 3.35 1.36z"/>
+            </svg>
+          </span>
+          <div class="st">
+            <span class="sub">GET IT ON</span>
+            <span class="main">Google Play</span>
+          </div>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="s-div"></div>
+
+<section class="how">
+  <div class="eyebrow reveal">How It Works</div>
+  <h2 class="s-title reveal">Three Steps to Your Perfect Look</h2>
+  <p class="s-sub reveal" style="max-width:470px;margin:0 auto">Scan, organise, and let AI dress you for every occasion.</p>
+
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-n">01</div>
+      <div class="step-ico">&#128247;</div>
+      <h3>Scan or Upload</h3>
+      <p>Take a selfie or complete a 360&deg; body scan to create your accurate digital twin avatar with precise body measurements.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">02</div>
+      <div class="step-ico">&#128084;</div>
+      <h3>Build Your Wardrobe</h3>
+      <p>Photograph each garment. AI auto-tags colour, category, style and season so your closet stays perfectly organised.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">03</div>
+      <div class="step-ico">&#10024;</div>
+      <h3>Get AI Suggestions</h3>
+      <p>Ask NX for any occasion — wedding, work, date, casual. Claude AI picks the perfect outfit from your real wardrobe.</p>
+    </div>
+  </div>
+</section>
+
+<div class="s-div"></div>
+
+<section class="feats">
+  <div class="feats-hd">
+    <div class="eyebrow reveal">What We Offer</div>
+    <h2 class="s-title reveal">Everything You Need to Dress Well</h2>
+    <p class="s-sub reveal">From AI styling to virtual try-on — your complete fashion intelligence platform.</p>
+  </div>
+
+  <div class="feats-showcase">
+  <div class="feat-grid" id="featGrid">
+    <div class="feat active" data-feat="ai" role="button" tabindex="0" aria-pressed="true">
+      <div class="feat-ico fi-b">&#129302;</div>
+      <h3>AI Outfit Suggestions</h3>
+      <p>Multi-agent AI recommends complete outfits for any occasion, drawing only from your real wardrobe.</p>
+    </div>
+    <div class="feat" data-feat="wardrobe" role="button" tabindex="0" aria-pressed="false">
+      <div class="feat-ico fi-s">&#128084;</div>
+      <h3>Wardrobe Manager</h3>
+      <p>Photograph your clothes and AI auto-categorises every item — colour, fabric, style tag, season — instantly.</p>
+    </div>
+    <div class="feat" data-feat="tryon" role="button" tabindex="0" aria-pressed="false">
+      <div class="feat-ico fi-g">&#129706;</div>
+      <h3>Virtual Try-On</h3>
+      <p>See how outfits look on your actual body using AI compositing. No fitting room, no guesswork needed.</p>
+    </div>
+    <div class="feat" data-feat="avatar" role="button" tabindex="0" aria-pressed="false">
+      <div class="feat-ico fi-p">&#11835;</div>
+      <h3>3D Avatar Creation</h3>
+      <p>360&deg; body scan builds your precise digital twin for accurate size recommendations and virtual clothes fitting.</p>
+    </div>
+    <div class="feat" data-feat="friends" role="button" tabindex="0" aria-pressed="false">
+      <div class="feat-ico fi-t">&#128101;</div>
+      <h3>Friends Space and Social Media Sharing</h3>
+      <p>Share looks, post outfits to the style feed, follow friends, and discover fashion inspiration from your community.</p>
+    </div>
+    <div class="feat" data-feat="calendar" role="button" tabindex="0" aria-pressed="false">
+      <div class="feat-ico fi-e">&#128197;</div>
+      <h3>Calendar Planning</h3>
+      <p>Pin outfits to future events. AI tracks what you have worn and keeps your style fresh — no repeated looks.</p>
+    </div>
+  </div>
+
+  <div class="feat-phone-col">
+    <div class="phone phone--feat" id="featPhone">
+      <div class="p-notch"></div>
+      <div class="p-screen">
+        <div class="fp-carousel" id="featPhoneCarousel">
+
+          <div class="fp-slide active" data-slide="ai">
+            <video class="fp-demo-video" muted playsinline loop preload="metadata" poster="assets/app-cap/outfit-smart-casual.png">
+              <source src="assets/demos/ai.mp4" type="video/mp4"/>
+            </video>
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-mock fp-story-mock--guide">
+                  <span class="nx-point nx-point--lg" style="left:50%;top:36%"><em class="nx-point-tag">Tap here</em></span>
+                  <p>Open <strong>Ask Nikonyx</strong> on Home</p>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Start the AI stylist chat</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-mock fp-story-mock--guide">
+                  <span class="nx-point nx-point--lg" style="left:58%;top:44%"><em class="nx-point-tag">Pick occasion</em></span>
+                  <p>Choose <strong>Date night</strong>, Work, or Weekend</p>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Tell NX where you are going</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/app-cap/outfit-smart-casual.png" alt="AI suggested outfit"/>
+                    <div class="nx-chrome nx-chrome--top"><span>Ask Nikonyx</span><span>Your look</span></div>
+                    <span class="nx-point" style="left:68%;top:76%"><em class="nx-point-tag">Save look</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">AI builds a full look from your wardrobe</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Home Dashboard</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fp-slide" data-slide="wardrobe">
+            <video class="fp-demo-video" muted playsinline loop preload="metadata" poster="assets/demo-wardrobe/step1-home.png">
+              <source src="assets/demos/wardrobe.mp4" type="video/mp4"/>
+            </video>
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-wardrobe/step1-home.png" alt="Home screen"/>
+                    <span class="nx-point" style="left:26%;top:91%"><em class="nx-point-tag">Wardrobe</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 5</div><div class="fp-story-title">From Home — tap Wardrobe</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-wardrobe/step2-wardrobe.png" alt="Wardrobe screen"/>
+                    <span class="nx-point" style="left:91%;top:78%"><em class="nx-point-tag">+</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 5</div><div class="fp-story-title">Open Wardrobe — tap +</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-wardrobe/step3-add-photo.png" alt="Add item form"/>
+                    <span class="nx-point" style="left:50%;top:30%"><em class="nx-point-tag">+</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 5</div><div class="fp-story-title">Tap + to select photos</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-wardrobe/step4-picker.png" alt="Select photos"/>
+                    <span class="nx-point" style="left:14%;top:26%"><em class="nx-point-tag">Select</em></span>
+                    <span class="nx-point" style="left:38%;top:42%"><em class="nx-point-tag">Select</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 5</div><div class="fp-story-title">Choose one or more items</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 5 of 5</div><div class="fp-story-title">Item saved in your Wardrobe</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fp-slide" data-slide="tryon">
+            <video class="fp-demo-video" muted playsinline loop preload="metadata" poster="assets/demo-tryon/tryon-loading.png">
+              <source src="assets/demos/tryon.mp4" type="video/mp4"/>
+            </video>
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-wardrobe/step1-home.png" alt="Home screen"/>
+                    <span class="nx-point" style="left:18%;top:91%"><em class="nx-point-tag">Try-On</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">From Home — tap Try-On</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-tryon/tryon-loading.png" alt="AR Fitting Room"/>
+                    <span class="nx-point nx-point--lg" style="left:78%;top:88%"><em class="nx-point-tag">Load wardrobe</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Load pieces from your wardrobe</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-tryon/tryon-loading.png" alt="Select outfit pieces"/>
+                    <span class="nx-point" style="left:78%;top:36%"><em class="nx-point-tag">Tops</em></span>
+                    <span class="nx-point" style="left:78%;top:52%"><em class="nx-point-tag">Bottoms</em></span>
+                    <span class="nx-point" style="left:78%;top:68%"><em class="nx-point-tag">Shoes</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Choose tops, bottoms &amp; shoes</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">See your full look in AR</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fp-slide" data-slide="avatar">
+            <video class="fp-demo-video" muted playsinline loop preload="metadata" poster="assets/app-cap/outfit-work.png">
+              <source src="assets/demos/avatar.mp4" type="video/mp4"/>
+            </video>
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/app-cap/outfit-work.png" alt="Body scan"/>
+                    <span class="nx-point nx-point--lg" style="left:50%;top:82%"><em class="nx-point-tag">Start scan</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Begin your 360&deg; body scan</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/app-cap/outfit-streetwear.png" alt="Rotate"/>
+                    <span class="nx-point nx-point--lg" style="left:50%;top:45%"><em class="nx-point-tag">Rotate</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Rotate in place for the camera</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-mock fp-story-mock--guide">
+                  <span class="nx-point nx-point--lg" style="left:50%;top:42%"><em class="nx-point-tag">Processing</em></span>
+                  <p>AI maps your <strong>measurements</strong></p>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Build your digital twin</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">AR Fitting Room — your look</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fp-slide" data-slide="friends">
+            <video class="fp-demo-video" muted playsinline loop preload="metadata" poster="assets/app-cap/outfit-party.png">
+              <source src="assets/demos/friends.mp4" type="video/mp4"/>
+            </video>
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/phone-style-feed.png" alt="Style Feed"/>
+                    <span class="nx-point" style="left:50%;top:22%"><em class="nx-point-tag">Browse</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">Open Style Feed</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/app-cap/outfit-city-chic.png" alt="New look"/>
+                    <span class="nx-point" style="left:84%;top:14%"><em class="nx-point-tag">New Look</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Share your look with friends</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/app-cap/outfit-minimalist.png" alt="Like"/>
+                    <span class="nx-point" style="left:16%;top:70%"><em class="nx-point-tag">Like</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Get reactions from your circle</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Style Feed</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fp-slide" data-slide="calendar">
+            <video class="fp-demo-video" muted playsinline loop preload="metadata" poster="assets/app-cap/outfit-evening.png">
+              <source src="assets/demos/calendar.mp4" type="video/mp4"/>
+            </video>
+            <div class="fp-story-view" data-story>
+              <div class="fp-story-frame active">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/demo-wardrobe/step1-home.png" alt="Home screen"/>
+                    <span class="nx-point" style="left:12%;top:14%"><em class="nx-point-tag">Menu</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 1 of 4</div><div class="fp-story-title">From Home — open Fashion Calendar</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene fp-cal-step-screen">
+                    <div class="fp-cal-step-hd">Fashion Calendar</div>
+                    <div class="fp-cal-step-tabs"><span>Day</span><span>Week</span><span class="on">Month</span></div>
+                    <div class="fp-cal-step-month">June 2026</div>
+                    <div class="fp-cal-step-grid">
+                      <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+                      <span class="day dim">26</span><span class="day dim">27</span><span class="day dim">28</span><span class="day dim">29</span><span class="day dim">30</span><span class="day dim">31</span><span class="day">1</span>
+                      <span class="day">2</span><span class="day">3</span><span class="day today">4</span><span class="day">5</span><span class="day">6</span><span class="day ev">7</span><span class="day">8</span>
+                      <span class="day">9</span><span class="day">10</span><span class="day">11</span><span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day">15</span>
+                      <span class="day">16</span><span class="day">17</span><span class="day">18</span><span class="day">19</span><span class="day">20</span><span class="day">21</span><span class="day">22</span>
+                      <span class="day">23</span><span class="day">24</span><span class="day">25</span><span class="day">26</span><span class="day">27</span><span class="day">28</span><span class="day">29</span>
+                      <span class="day">30</span><span class="day dim">1</span><span class="day dim">2</span><span class="day dim">3</span><span class="day dim">4</span><span class="day dim">5</span><span class="day dim">6</span>
+                    </div>
+                    <span class="nx-point nx-point--lg" style="left:82%;top:38%"><em class="nx-point-tag">Event day</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 2 of 4</div><div class="fp-story-title">Tap the day of your event</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-media">
+                  <div class="nx-scene">
+                    <img src="assets/app-cap/outfit-evening.png" alt="Planned outfit"/>
+                    <span class="nx-point" style="left:50%;top:74%"><em class="nx-point-tag">Pin outfit</em></span>
+                  </div>
+                </div>
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 3 of 4</div><div class="fp-story-title">Pin a complete outfit to that day</div></div>
+              </div>
+              <div class="fp-story-frame">
+                <div class="fp-story-bar"><div class="fp-story-progress"></div><div class="fp-story-step">Step 4 of 4</div><div class="fp-story-title">Your Fashion Calendar</div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <p class="feat-phone-caption" id="featPhoneCaption">AI Outfit Suggestions</p>
+    <p class="feat-phone-hint" id="featPhoneHint">Steps auto-play → final screen matches welcoming app → loops</p>
+  </div>
+  </div>
+</section>
+
+<div class="s-div"></div>
+
+<section class="stats">
+  <div class="stats-wrap reveal">
+    <div class="stat">
+      <div class="stat-n">10K<em>+</em></div>
+      <div class="stat-lb">Wardrobe Items Managed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">50K<em>+</em></div>
+      <div class="stat-lb">Outfits Generated</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">4.9<em>&#9733;</em></div>
+      <div class="stat-lb">App Rating</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-box reveal">
+    <div class="cta-top"></div>
+    <div class="cta-bot"></div>
+    <div class="cta-radial"></div>
+    <h2>Build Your Best Look With AI</h2>
+    <p>Start creating smart outfits today — your personal AI stylist is ready.</p>
+    <a href="pages/apps.html" class="btn-gold">Start Now &rarr;</a>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-ring"><img src="assets/nx-logo.png" alt="NX" class="nx-mark"/></div>
+        <span class="nav-word">Nikonyx</span>
+      </a>
+      <p>Your Smart AI Wardrobe Assistant. Dress with confidence every single day.</p>
+    </div>
+    <div class="ft-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="pages/features.html">Features</a></li>
+        <li><a href="pages/apps.html">Download App</a></li>
+        <li><a href="pages/help_center.html">Help Center</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="pages/contact.html">Contact Us</a></li>
+        <li><a href="pages/privacy.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p>&copy; 2026 Nikonyxlook. All rights reserved.</p>
+    <div class="socials">
+      <a href="#" class="soc soc--tiktok" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
+      <a href="#" class="soc soc--instagram" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+      <a href="#" class="soc soc--x" aria-label="X" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" class="soc soc--pinterest" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0a12 12 0 0 0-4.37 23.17c-.07-.63-.14-1.6.03-2.29.15-.63.97-4.01.97-4.01s-.25-.5-.25-1.24c0-1.16.67-2.03 1.51-2.03.71 0 1.05.53 1.05 1.17 0 .71-.46 1.78-.69 2.77-.2.83.42 1.51 1.24 1.51 1.49 0 2.63-1.57 2.63-3.84 0-2.01-1.44-3.42-3.5-3.42-2.38 0-3.78 1.79-3.78 3.64 0 .72.28 1.5.63 1.92a.25.25 0 0 1 .06.24c-.07.28-.22.88-.25 1-.04.16-.13.2-.3.12-1.12-.52-1.82-2.15-1.82-3.46 0-2.82 2.05-5.41 5.91-5.41 3.11 0 5.52 2.21 5.52 5.16 0 3.09-1.95 5.58-4.66 5.58-.91 0-1.76-.47-2.05-1.03l-.56 2.14c-.2.78-.75 1.75-1.12 2.34A12 12 0 1 0 12 0z"/></svg></a>
+      <a href="#" class="soc soc--facebook" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.845c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+      <a href="#" class="soc soc--whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<template id="nxHomeDashboardTpl"><!-- inlined from assets/nx-home-dashboard.tpl -->
+<div class="p-status"><span>10:50</span><div class="p-sr"><span>&#128246;</span><span>&#9679;</span><span class="p-bat">90%</span></div></div>
+<div class="p-header"><div class="p-bar"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div><div class="p-nx-logo"><img src="{{asset}}nx-logo.png" alt="NX" class="nx-mark"/></div><div class="p-bar-r"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a5 5 0 00-5 5v2.2c0 .8-.3 1.6-.9 2.2L4 14.5V16h16v-1.5l-2.1-2.1a3.1 3.1 0 01-.9-2.2V8a5 5 0 00-5-5z"/><path d="M10 19a2 2 0 004 0"/></svg></div><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div></div></div><div class="p-header-curve"></div></div>
+<div class="p-body"><div class="p-profile"><h2 class="p-name">Ezel</h2><p class="p-usub">— Your NX Style Assistant —</p><div class="p-avatar">E</div></div><div class="p-ai"><div class="p-aid">NX</div><div class="p-aiph">Ask NX for <strong>Outfit Suggestions</strong></div><div class="p-mic">&#127908;</div></div><div class="p-chips"><div class="p-chip on">Date</div><div class="p-chip">Wedding</div><div class="p-chip">Work</div></div><div class="p-quick-row"><div class="p-qcard"><span class="p-qic">&#128100;</span><span class="p-qlb">Create Outfits</span><span class="p-qarr">&#8250;</span></div><div class="p-qcard"><span class="p-qic">&#128278;</span><span class="p-qlb">Saved Outfits</span><span class="p-qarr">&#8250;</span></div><div class="p-qcard"><span class="p-qic">&#128722;</span><span class="p-qlb">Shopping</span><span class="p-qarr">&#8250;</span></div></div><div class="p-feed p-fab-wrap"><div class="p-feed-col"><div class="p-feed-hd">Inspiration</div><div class="p-feed-card"><div class="p-feed-img p-feed-img--suit"></div><div class="p-feed-title">Elevated Formal</div><div class="p-feed-sub">Navy suit</div><div class="p-feed-dots"><i class="on"></i><i></i></div></div></div><div class="p-feed-col"><div class="p-feed-hd">Fits Wardrobe</div><div class="p-feed-card"><div class="p-feed-img p-feed-img--empty"></div><div class="p-feed-title">Smart Casual</div><div class="p-feed-sub">Layers</div><div class="p-feed-dots"><i class="on"></i><i></i></div></div></div><div class="p-feed-col"><div class="p-feed-hd">Trends</div><div class="p-feed-card"><div class="p-feed-img p-feed-img--bag"></div><div class="p-feed-title">Evening Look</div><div class="p-feed-sub">Charcoal</div><div class="p-feed-dots"><i class="on"></i><i></i></div></div></div><div class="p-fab">&#128172;</div></div></div>
+<div class="p-bnav"><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h2.5l1.8-2.8h7.4L17.5 8H20a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2v-7a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.2"/></svg></div><div class="p-bnl">Try-On</div></div><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.5 10.2C4.6 10.2 3 11.4 3 13v1.2h18V13c0-1.6-1.6-2.8-3.5-2.8"/><path d="M12 5c1 0 1.8.8 1.8 1.8 0 .6-.3 1.1-.8 1.4L12 9.2l-1-1c-.5-.3-.8-.8-.8-1.4C10.2 5.8 11 5 12 5z"/></svg></div><div class="p-bnl">Wardrobe</div></div><div class="p-bn on"><div class="p-home-ring"><img src="{{asset}}nx-logo.png" alt="Home" class="nx-mark"/></div><div class="p-bnl">Home</div></div><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="8.2" r="2.6"/><circle cx="15.8" cy="9" r="2.1"/><path d="M4.5 17.8c0-2.3 2-4.1 4.5-4.1s4.5 1.8 4.5 4.1"/></svg></div><div class="p-bnl">Friends</div></div><div class="p-bn"><div class="p-bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><rect x="7.5" y="4" width="8" height="14" rx="1.5"/></svg></div><div class="p-bnl">Outfits</div></div></div>
+</template>
+
+<template id="nxCalendarScreenTpl"><!-- inlined from assets/nx-calendar-screen.tpl -->
+<div class="p-status"><span>10:50</span><div class="p-sr"><span>&#128246;</span><span>&#9679;</span><span class="p-bat">90%</span></div></div>
+<div class="p-header"><div class="p-bar"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div><div class="p-cal-title">Fashion Calendar</div><div class="p-bar-r"><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a5 5 0 00-5 5v2.2c0 .8-.3 1.6-.9 2.2L4 14.5V16h16v-1.5l-2.1-2.1a3.1 3.1 0 01-.9-2.2V8a5 5 0 00-5-5z"/><path d="M10 19a2 2 0 004 0"/></svg></div><div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div></div></div><div class="p-header-curve"></div></div>
+<div class="p-cal-body"><div class="p-cal-tabs"><span>Day</span><span>Week</span><span class="on">Month</span></div><div class="p-cal-nav"><button type="button" class="p-cal-arrow" aria-hidden="true">&#8249;</button><span class="p-cal-month">June 2026</span><button type="button" class="p-cal-arrow" aria-hidden="true">&#8250;</button></div><div class="p-cal-grid"><span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span><span class="day dim">26</span><span class="day dim">27</span><span class="day dim">28</span><span class="day dim">29</span><span class="day dim">30</span><span class="day dim">31</span><span class="day">1</span><span class="day">2</span><span class="day">3</span><span class="day today">4</span><span class="day has-outfit">5</span><span class="day">6</span><span class="day ev">7</span><span class="day">8</span><span class="day">9</span><span class="day has-outfit">10</span><span class="day">11</span><span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day has-outfit">15</span><span class="day">16</span><span class="day">17</span><span class="day">18</span><span class="day ev">19</span><span class="day">20</span><span class="day">21</span><span class="day">22</span><span class="day">23</span><span class="day">24</span><span class="day has-outfit">25</span><span class="day">26</span><span class="day">27</span><span class="day">28</span><span class="day">29</span><span class="day">30</span><span class="day dim">1</span><span class="day dim">2</span><span class="day dim">3</span><span class="day dim">4</span><span class="day dim">5</span><span class="day dim">6</span></div><div class="p-cal-event"><div class="p-cal-event-thumb"></div><div class="p-cal-event-txt"><strong>Sat 7 — Wedding</strong><span>Evening Elegance · pinned outfit</span></div></div><div class="p-cal-hint">Tap any day to plan what you&apos;ll wear</div></div>
+</template>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+}, {passive: true});
+
+const ham  = document.getElementById('ham');
+const mob  = document.getElementById('mob');
+const mobX = document.getElementById('mobX');
+
+ham.addEventListener('click', () => {
+  ham.classList.add('open');
+  mob.classList.add('open');
+  document.body.style.overflow = 'hidden';
+});
+const closeMob = () => {
+  ham.classList.remove('open');
+  mob.classList.remove('open');
+  document.body.style.overflow = '';
+};
+mobX.addEventListener('click', closeMob);
+mob.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMob));
+
+const revEls = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const parent = entry.target.parentElement;
+    const siblings = parent ? Array.from(parent.querySelectorAll('.reveal:not(.visible)')) : [];
+    const idx = siblings.indexOf(entry.target);
+    setTimeout(() => entry.target.classList.add('visible'), Math.max(0, idx) * 85);
+    revObs.unobserve(entry.target);
+  });
+}, { threshold: 0.1 });
+revEls.forEach(el => revObs.observe(el));
+
+const sBtn = document.getElementById('searchBtn');
+const sIn  = document.getElementById('searchInput');
+sBtn.addEventListener('click', () => {
+  const q = sIn.value.trim();
+  if (q) alert('NX Outfit Assistant: "' + q + '"\n\nDownload the Nikonyx app for personalised AI outfit suggestions!');
+});
+sIn.addEventListener('keydown', e => { if (e.key === 'Enter') sBtn.click(); });
+
+document.querySelectorAll('.p-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.p-chip').forEach(c => c.classList.remove('on'));
+    chip.classList.add('on');
+  });
+});
+</script>
+<script src="assets/phone-story.js"></script>
+<script>
+initPhoneStories({
+  carouselId: 'featPhoneCarousel',
+  boxSelector: '#featGrid .feat',
+  slideSelector: '#featPhoneCarousel .fp-slide',
+  boxActiveClass: 'active',
+  captionId: 'featPhoneCaption',
+  defaultKey: 'ai',
+  assetPrefix: 'assets/',
+  labels: {
+    ai: 'AI Outfit Suggestions',
+    wardrobe: 'Wardrobe Manager',
+    tryon: 'Virtual Try-On',
+    avatar: '3D Avatar Creation',
+    friends: 'Friends Space and Social Media Sharing',
+    calendar: 'Calendar Planning'
+  }
+});
+</script>
+<script>
+(function(){
+  const WELCOME_MS = 3000;
+  const carousel = document.getElementById('phoneCarousel');
+  if (!carousel) return;
+  const slides = carousel.querySelectorAll('.p-slide');
+  const caption = document.getElementById('welcomeCaption');
+  const dotsWrap = document.getElementById('welcomeDots');
+  if (slides.length < 2) return;
+
+  const names = [];
+  slides.forEach((slide, i) => {
+    const name = slide.getAttribute('data-welcome') || 'Nikonyx App';
+    names.push(name);
+    if (dotsWrap) {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Show ' + name);
+      dot.addEventListener('click', () => {
+        goTo(i);
+        resetTimer();
+      });
+      dotsWrap.appendChild(dot);
+    }
+  });
+
+  const dots = dotsWrap ? dotsWrap.querySelectorAll('button') : [];
+  let idx = 0;
+  let timer;
+
+  function goTo(i) {
+    slides[idx].classList.remove('active');
+    if (dots[idx]) dots[idx].classList.remove('active');
+    idx = i;
+    slides[idx].classList.add('active');
+    if (dots[idx]) dots[idx].classList.add('active');
+    if (caption) caption.textContent = names[idx];
+  }
+
+  function next() {
+    goTo((idx + 1) % slides.length);
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, WELCOME_MS);
+  }
+
+  goTo(0);
+  resetTimer();
+})();
+
+const p = window.location.pathname.split('/').pop() || 'index.html';
+document.querySelectorAll('.nav-links a').forEach(a => {
+  if (a.getAttribute('href').split('/').pop() === p) a.classList.add('active');
+});
+
+(function(){
+  const LANG_KEY = 'nikonyx-lang';
+  const LANG_LABELS = { en: 'English', fr: 'Français', de: 'Deutsch' };
+
+  const closeLangDropdowns = (except) => {
+    document.querySelectorAll('[data-lang-dd]').forEach(dd => {
+      if (except && dd === except) return;
+      dd.classList.remove('open');
+      const trigger = dd.querySelector('.lang-dd-trigger');
+      const menu = dd.querySelector('.lang-dd-menu');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      if (menu) menu.hidden = true;
+    });
+  };
+
+  const setLang = (lang) => {
+    const code = LANG_LABELS[lang] ? lang : 'en';
+    document.documentElement.lang = code === 'fr' ? 'fr' : code === 'de' ? 'de' : 'en';
+    document.querySelectorAll('[data-lang-dd]').forEach(dd => {
+      dd.querySelectorAll('.lang-dd-opt').forEach(opt => {
+        const on = opt.dataset.lang === code;
+        opt.classList.toggle('active', on);
+        opt.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      const label = dd.querySelector('.lang-dd-label');
+      if (label) label.textContent = LANG_LABELS[code];
+      const flag = dd.querySelector('.lang-dd-flag');
+      if (flag) {
+        flag.classList.remove('lang-flag--en', 'lang-flag--fr', 'lang-flag--de');
+        flag.classList.add('lang-flag--' + code);
+      }
+    });
+    closeLangDropdowns();
+    try { localStorage.setItem(LANG_KEY, code); } catch (_) {}
+  };
+
+  document.querySelectorAll('[data-lang-dd]').forEach(dd => {
+    const trigger = dd.querySelector('.lang-dd-trigger');
+    const menu = dd.querySelector('.lang-dd-menu');
+    trigger?.addEventListener('click', e => {
+      e.stopPropagation();
+      const willOpen = !dd.classList.contains('open');
+      closeLangDropdowns();
+      if (willOpen) {
+        dd.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+        if (menu) menu.hidden = false;
+      }
+    });
+    dd.querySelectorAll('.lang-dd-opt').forEach(opt => {
+      opt.addEventListener('click', e => {
+        e.stopPropagation();
+        setLang(opt.dataset.lang);
+      });
+    });
+  });
+
+  document.addEventListener('click', () => closeLangDropdowns());
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLangDropdowns(); });
+
+  let saved;
+  try { saved = localStorage.getItem(LANG_KEY); } catch (_) {}
+  setLang(saved && LANG_LABELS[saved] ? saved : 'en');
+})();
+</script>
+</body>
+</html>
