@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../assets/nx-phone-shell.css" />
   <link rel="stylesheet" href="../assets/nx-guide.css" />
   <link rel="stylesheet" href="../assets/nx-home-dashboard.css" />
   <link rel="stylesheet" href="../assets/nx-calendar-screen.css" />
@@ -51,7 +52,7 @@
       padding:40px 6% 100px;
     }
     .cap-showcase{
-      display:grid;grid-template-columns:1fr 280px;
+      display:grid;grid-template-columns:1fr var(--nx-phone-col-w, var(--nx-phone-w));
       gap:36px;align-items:start;max-width:1180px;margin:40px auto 0;
     }
     .cap-grid-interactive{
@@ -75,26 +76,9 @@
     .cap-card h4{font-size:13px;font-weight:700;margin-bottom:4px;line-height:1.25}
     .cap-card p{font-size:11px;color:var(--text-secondary);line-height:1.5}
     .cap-phone-col{
-      display:flex;flex-direction:column;align-items:center;
       position:sticky;top:100px;
     }
-    .cap-phone{
-      width:268px;background:var(--navy-deep);
-      border:2px solid var(--gold);border-radius:40px;
-      padding:12px 9px;
-      box-shadow:0 0 0 5px rgba(201,154,46,0.08),0 28px 56px rgba(0,0,0,0.45);
-    }
-    .cap-screen{
-      background:#fff;border-radius:30px;overflow:hidden;
-      min-height:480px;position:relative;
-    }
-    .cap-carousel{position:relative;min-height:480px;width:100%}
-    .cap-slide{
-      position:absolute;inset:0;opacity:0;visibility:hidden;
-      transition:opacity .4s ease;overflow:hidden;background:#fff;
-    }
-    .cap-slide.active{opacity:1;visibility:visible;z-index:1}
-    .cap-slide--img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+    .cap-slide{transition:opacity .4s ease}
     .cap-demo{display:flex;flex-direction:column;height:100%;background:#fff}
     .cap-demo-hd{
       background:linear-gradient(180deg,#0a1830,#0d1f40);
@@ -307,9 +291,9 @@
       </div>
 
       <div class="cap-phone-col">
-        <div class="cap-phone">
-          <div class="phone-notch"></div>
-          <div class="cap-screen">
+        <div class="phone phone--static">
+          <div class="p-notch"></div>
+          <div class="p-screen">
             <div class="cap-carousel" id="capPhoneCarousel">
 
               

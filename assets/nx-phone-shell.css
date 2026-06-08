@@ -1,0 +1,171 @@
+/* Unified Nikonyx phone mockup — hero welcoming screen is the reference size */
+:root{
+  --nx-phone-w:300px;
+  --nx-phone-pad:12px 9px;
+  --nx-phone-radius:44px;
+  --nx-phone-border:#3B82F6;
+  --nx-phone-bg:#091630;
+  --nx-phone-gold:#C8A840;
+  --nx-screen-radius:34px;
+  --nx-screen-h:620px;
+  --nx-notch-w:76px;
+  --nx-notch-h:18px;
+  /* grid column width for single-phone layouts (features / apps / homepage) */
+  --nx-phone-col-w:var(--nx-phone-w);
+}
+
+.phone,
+.nx-phone{
+  width:var(--nx-phone-w);
+  min-width:var(--nx-phone-w);
+  max-width:var(--nx-phone-w);
+  box-sizing:border-box;
+  background:var(--nx-phone-bg);
+  border:1.5px solid var(--nx-phone-border);
+  border-radius:var(--nx-phone-radius);
+  padding:var(--nx-phone-pad);
+  box-shadow:
+    7px 7px 0 var(--nx-phone-gold),
+    0 0 26px rgba(59,130,246,0.3),
+    0 44px 80px rgba(0,0,0,0.55);
+  flex:0 0 var(--nx-phone-w);
+  flex-shrink:0;
+}
+
+.phone--float{
+  animation:nxPhoneFloat 6s ease-in-out infinite;
+}
+@keyframes nxPhoneFloat{
+  0%,100%{transform:rotate(-4deg) translateY(0)}
+  50%{transform:rotate(-4deg) translateY(-11px)}
+}
+
+.phone--static{
+  animation:none;
+  transform:rotate(-3deg);
+}
+
+.phone--static-alt{
+  animation:none;
+  transform:rotate(2deg) translateY(14px);
+}
+
+.phone--parallel{
+  animation:none;
+  transform:none;
+}
+
+.p-notch,
+.phone-notch,
+.nx-phone-notch,
+.nx-mini-notch{
+  width:var(--nx-notch-w);
+  height:var(--nx-notch-h);
+  background:#000;
+  border-radius:0 0 11px 11px;
+  margin:0 auto 6px;
+}
+
+.p-screen,
+.cap-screen,
+.nx-phone-screen,
+.nx-mini-screen{
+  background:#fff;
+  border-radius:var(--nx-screen-radius);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:var(--nx-screen-h);
+  min-height:var(--nx-screen-h);
+  max-height:var(--nx-screen-h);
+  position:relative;
+  box-sizing:border-box;
+}
+
+.p-carousel,
+.fp-carousel,
+.cap-carousel{
+  position:relative;
+  flex:1;
+  width:100%;
+  height:100%;
+  min-height:var(--nx-screen-h);
+}
+
+.p-slide,
+.fp-slide,
+.cap-slide{
+  position:absolute;inset:0;
+  opacity:0;visibility:hidden;
+  transition:opacity .5s ease;
+  display:flex;flex-direction:column;
+  overflow:hidden;background:#fff;
+}
+.p-slide.active,
+.fp-slide.active,
+.cap-slide.active{
+  opacity:1;visibility:visible;z-index:1;
+}
+
+.p-slide--img img,
+.fp-slide--img img,
+.cap-slide--img img,
+.fp-story-app-screen img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;display:block;
+}
+
+/* Phone column wrappers — never narrower than the reference phone */
+.phone-col,
+.feat-phone-col,
+.cap-phone-col{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:var(--nx-phone-w);
+  min-width:var(--nx-phone-w);
+  flex-shrink:0;
+}
+
+.nx-showcase-phones{
+  display:flex;
+  flex-direction:row;
+  gap:16px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:nowrap;
+  width:100%;
+  min-width:calc(var(--nx-phone-w) * 2 + 16px);
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:4px;
+}
+.nx-showcase-phones .phone{
+  width:var(--nx-phone-w);
+  min-width:var(--nx-phone-w);
+  max-width:var(--nx-phone-w);
+  flex:0 0 var(--nx-phone-w);
+}
+
+/* Single-phone layout grids (homepage features, apps page) */
+.feats-showcase,
+.cap-showcase{
+  --nx-phone-col-w:var(--nx-phone-w);
+}
+
+@media(max-width:768px){
+  .phone--static-alt{transform:rotate(1deg) translateY(8px)}
+  .nx-showcase-phones{
+    justify-content:flex-start;
+    scroll-snap-type:x mandatory;
+    padding:4px 0 12px;
+  }
+  .nx-showcase-phones .phone{scroll-snap-align:center}
+}
+@media(max-width:400px){
+  :root{
+    --nx-phone-w:min(300px, calc(100vw - 32px));
+    --nx-screen-h:min(620px, calc((100vw - 32px) * 2.067));
+  }
+}

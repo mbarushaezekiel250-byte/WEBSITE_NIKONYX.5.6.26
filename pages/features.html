@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../assets/nx-phone-shell.css" />
+  <link rel="stylesheet" href="../assets/nx-showcase.css" />
   <style>
     .feat-hero { padding: 140px 6% 70px; position: relative; z-index:1; text-align: center; }
     .feat-hero::before {
@@ -50,7 +52,7 @@
       font-size:14px; color:var(--text-secondary); padding:5px 0;
       display:flex; align-items:flex-start; gap:10px;
     }
-    .feat-bullets li::before { content:'&#10003;'; color:var(--blue-light); font-weight:700; margin-top:1px; flex-shrink:0; }
+    .feat-bullets li::before { content:'\2713'; color:var(--blue-light); font-weight:700; margin-top:1px; flex-shrink:0; }
 
     @media (max-width:768px) {
       .feat-big-grid { grid-template-columns:1fr; }
@@ -122,8 +124,133 @@
   <div class="feat-hero">
     <div class="section-eyebrow reveal">Platform Features</div>
     <h1 class="section-title reveal">Every Feature You Need</h1>
-    <p class="feat-intro reveal">Nikonyx combines AI styling, 3D scanning, virtual try-on, and social fashion — all in one app.</p>
+    <p class="feat-intro reveal">Nikonyx combines AI styling, trip planning, 3D scanning, virtual try-on, and social fashion — all in one app.</p>
   </div>
+
+  <section class="nx-showcase nx-showcase--light" style="padding:40px 6% 60px">
+    <div class="nx-showcase-row">
+      <div class="nx-showcase-copy reveal">
+        <div class="section-eyebrow" style="margin-bottom:12px">AI Stylist</div>
+        <h2 class="section-title" style="text-align:left;font-size:clamp(24px,3vw,36px)">Schedule, Weather &amp; Mood</h2>
+        <p class="feat-intro" style="margin:12px 0 0;text-align:left">NX recommends outfits from your wardrobe using live weather, your calendar, and personal colour analysis.</p>
+        <ul class="nx-showcase-list">
+          <li>Tomorrow&rsquo;s forecast built into every suggestion</li>
+          <li>Refine via chat: &ldquo;Make it more formal&rdquo;</li>
+          <li>Spring Bright, Summer Soft &amp; seasonal colour palettes</li>
+        </ul>
+      </div>
+      <div class="nx-showcase-phones nx-showcase-phones--parallel reveal">
+        <div class="phone phone--parallel">
+          <div class="p-notch"></div>
+          <div class="p-screen nx-showcase-screen nx-ai-color-screen">
+            <div class="nx-color-close" aria-hidden="true">&#10005;</div>
+            <div class="nx-color-hd"><h4>Spring Bright</h4><p>Vivid, fresh, and full of life</p></div>
+            <div class="nx-color-body">
+              <div class="nx-color-block"><h5>Key Traits</h5><p>Clear, lively colours that match your natural glow. Vibrant with warmth — never muddy or grey.</p></div>
+              <div class="nx-color-block"><h5>Best Colours</h5>
+                <div class="nx-color-swatches"><i class="nx-sw--coral"></i><i class="nx-sw--aqua"></i><i class="nx-sw--peach"></i><i class="nx-sw--yellow"></i><i class="nx-sw--lime"></i></div>
+                <p>Coral, bright peach, aqua &amp; turquoise. Pair with warm ivory or soft gold neutrals.</p>
+              </div>
+            </div>
+            <div class="nx-ai-chat"><span class="nx-ai-chat-plus" aria-hidden="true">+</span><span class="nx-ai-chat-ph">Ask more about your results</span><span class="nx-ai-chat-send" aria-hidden="true">&#8594;</span></div>
+          </div>
+        </div>
+        <div class="phone phone--parallel">
+          <div class="p-notch"></div>
+          <div class="p-screen nx-showcase-screen nx-ai-outfit-screen">
+            <div class="nx-ai-status"><span>9:14</span><span aria-hidden="true">&#9679;&#9679;&#9679;</span></div>
+            <div class="nx-ai-nav"><span class="nx-ai-back" aria-hidden="true">&#8249;</span><span class="nx-ai-user">&#9729; Leo &#9662;</span><span class="nx-ai-nav-r" aria-hidden="true">&#9881; &#9776;</span></div>
+            <div class="nx-ai-ctx">
+              <div class="nx-ai-weather-line"><span aria-hidden="true">&#9728;</span><strong>16&deg;C / 22&deg;C</strong></div>
+              <div class="nx-ai-loc">12/11/2025 &middot; New York</div>
+              <p class="nx-ai-msg">I&rsquo;ll recommend an outfit for tomorrow! Since it&rsquo;ll be a bit chilly, it&rsquo;s better to wear a long sleeve or a short sleeve with a jacket.</p>
+            </div>
+            <div class="nx-ai-card">
+              <div class="nx-ai-outfit-grid">
+                <img src="../assets/app-cap/outfit-streetwear.png" alt="Top"/>
+                <img src="../assets/app-cap/outfit-work.png" alt="Trousers"/>
+                <img src="../assets/app-cap/outfit-evening.png" alt="Jacket"/>
+                <img src="../assets/app-cap/outfit-smart-casual.png" alt="Shoes"/>
+              </div>
+              <div class="nx-ai-actions">
+                <button type="button" class="nx-ai-dislike" aria-label="Dislike">&#128078;</button>
+                <button type="button" class="edit">Edit</button>
+                <button type="button" class="save">Save</button>
+              </div>
+            </div>
+            <div class="nx-ai-chat"><span class="nx-ai-chat-plus" aria-hidden="true">+</span><span class="nx-ai-chat-ph">Make it more formal?</span><span class="nx-ai-chat-send" aria-hidden="true">&#8594;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nx-showcase" style="padding:40px 6% 60px;background:var(--bg-primary)">
+    <div class="nx-showcase-row nx-showcase-row--flip">
+      <div class="nx-showcase-phones nx-showcase-phones--parallel reveal">
+        <div class="phone phone--parallel">
+          <div class="p-notch"></div>
+          <div class="p-screen nx-showcase-screen">
+            <div class="nx-trip-cal-hd">April 2025</div>
+            <div class="nx-trip-cal-grid">
+              <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+              <span class="day"></span><span class="day"></span><span class="day">1</span>
+              <span class="day has-outfit"><span class="day-num">2</span><img src="../assets/app-cap/outfit-smart-casual.png" alt="Outfit Apr 2"/></span>
+              <span class="day">3</span>
+              <span class="day has-outfit"><span class="day-num">4</span><img src="../assets/app-cap/outfit-work.png" alt="Outfit Apr 4"/></span>
+              <span class="day">5</span>
+              <span class="day has-outfit"><span class="day-num">6</span><img src="../assets/app-cap/outfit-evening.png" alt="Outfit Apr 6"/></span>
+              <span class="day">7</span>
+            </div>
+            <div class="nx-trip-stats">
+              <div class="nx-trip-stat"><strong>40</strong><span>OOTD</span></div>
+              <div class="nx-trip-stat"><strong>&#128084;</strong><span>Most worn</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone phone--parallel">
+          <div class="p-notch"></div>
+          <div class="p-screen nx-showcase-screen nx-trip-screen">
+            <div class="nx-trip-hero">
+              <div class="nx-trip-hero-nav"><span aria-hidden="true">&#8249;</span><span aria-hidden="true">&#8942;</span></div>
+              <h4>Berlin travel</h4>
+              <ul class="nx-trip-meta">
+                <li><span class="ico" aria-hidden="true">&#128197;</span> 25.12.29 &ndash; 25.12.30</li>
+                <li><span class="ico" aria-hidden="true">&#128205;</span> Berlin, Germany</li>
+                <li><span class="ico" aria-hidden="true">&#128196;</span> I&rsquo;m so excited!!</li>
+              </ul>
+            </div>
+            <div class="nx-trip-tabs"><span class="on">Outfit 19</span><span>Item 99</span><span>Checklist</span></div>
+            <div class="nx-trip-day">
+              <div class="nx-trip-day-row">
+                <strong class="nx-trip-day-label">Day 1</strong>
+                <div class="nx-trip-day-info">
+                  <div><span class="ico" aria-hidden="true">&#128197;</span> Dec 29 Sun</div>
+                  <div><span class="ico" aria-hidden="true">&#128205;</span> Berlin</div>
+                  <div><span class="ico" aria-hidden="true">&#9728;</span> 2 / 8&deg;C</div>
+                </div>
+              </div>
+              <div class="nx-trip-outfits">
+                <div class="nx-trip-outfit-card"><img src="../assets/app-cap/outfit-streetwear.png" alt="Berlin day 1 outfit"/></div>
+                <div class="nx-trip-outfit-card"><img src="../assets/app-cap/outfit-city-chic.png" alt="Berlin day 1 outfit"/></div>
+              </div>
+            </div>
+            <div class="nx-trip-add">Add outfit</div>
+          </div>
+        </div>
+      </div>
+      <div class="nx-showcase-copy reveal">
+        <div class="section-eyebrow" style="margin-bottom:12px">Plan Your Days &amp; Trips</div>
+        <h2 class="section-title" style="text-align:left;font-size:clamp(24px,3vw,36px)">Calendar, Trips &amp; Stats</h2>
+        <p class="feat-intro" style="margin:12px 0 0;text-align:left">Track daily outfits, plan trip wardrobes with destination weather, and see private wardrobe statistics.</p>
+        <ul class="nx-showcase-list">
+          <li>Outfit thumbnails on your monthly calendar</li>
+          <li>Trip boards with day-by-day packing</li>
+          <li>OOTD count and most-worn items</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <section class="features-full">
     <div class="feat-big-grid">
@@ -131,12 +258,12 @@
       <div class="feat-big-card reveal">
         <div class="feat-big-icon" style="background:rgba(42,88,200,0.15)">&#129302;</div>
         <h2>AI Outfit Suggestions</h2>
-        <p>A multi-agent AI system powered by Claude recommends complete outfits for any occasion, pulling only from items in your own wardrobe.</p>
+        <p>Multi-agent AI recommends complete outfits for any occasion, pulling only from items in your own wardrobe — with weather and colour context.</p>
         <ul class="feat-bullets">
           <li>Occasion-aware: date, wedding, work, casual, interview</li>
           <li>Weather and location context for smart seasonal picks</li>
-          <li>Explains why each combination works together</li>
-          <li>Prevents repeating looks tracked in your calendar</li>
+          <li>Personal colour analysis — know which shades suit you</li>
+          <li>Chat to refine: &ldquo;Make it more formal&rdquo; or &ldquo;Add a layer&rdquo;</li>
         </ul>
       </div>
 
@@ -192,13 +319,13 @@
 
       <div class="feat-big-card reveal">
         <div class="feat-big-icon" style="background:rgba(99,153,34,0.15)">&#128197;</div>
-        <h2>Calendar Outfit Planning</h2>
-        <p>Plan what you'll wear to every event in advance. AI connects your wardrobe to your schedule.</p>
+        <h2>Calendar &amp; Trip Planning</h2>
+        <p>Track what you wear daily, plan outfits for events, and pack for trips with real destination weather.</p>
         <ul class="feat-bullets">
-          <li>Add fashion events with occasion and weather context</li>
-          <li>AI pre-selects the best outfit for each date</li>
-          <li>Tracks outfit history — no outfit repeats</li>
-          <li>Week, month, and day calendar views</li>
+          <li>Monthly calendar with outfit thumbnails on each day</li>
+          <li>Trip boards: day-by-day looks, items &amp; packing checklist</li>
+          <li>Destination weather built into every travel outfit</li>
+          <li>Private stats: OOTD count and most-worn pieces</li>
         </ul>
       </div>
 

@@ -738,16 +738,19 @@ footer {
     }
 
     .phone-frame {
-      width: 290px;
+      width: var(--nx-phone-w, 300px);
+      min-width: var(--nx-phone-w, 300px);
+      max-width: var(--nx-phone-w, 300px);
       background: var(--navy-deep);
-      border: 2px solid var(--gold);
+      border: 1.5px solid #3B82F6;
       border-radius: 44px;
-      padding: 14px 10px;
+      padding: 12px 9px;
       position: relative;
-      box-shadow: 0 0 0 6px rgba(201,154,46,0.08),
-                  0 40px 80px rgba(0,0,0,0.6),
-                  0 0 60px rgba(42,88,200,0.15);
+      box-shadow: 7px 7px 0 #C8A840,
+                  0 0 26px rgba(59,130,246,0.3),
+                  0 44px 80px rgba(0,0,0,0.55);
       animation: phoneFloat 4s ease-in-out infinite;
+      box-sizing: border-box;
     }
 
     @keyframes phoneFloat {
@@ -763,9 +766,11 @@ footer {
 
     .phone-screen {
       background: #fff;
-      border-radius: 32px;
+      border-radius: 34px;
       overflow: hidden;
-      min-height: 560px;
+      height: var(--nx-screen-h, 620px);
+      min-height: var(--nx-screen-h, 620px);
+      max-height: var(--nx-screen-h, 620px);
     }
 
     /* STATUS BAR */
@@ -1128,7 +1133,7 @@ footer {
       .ai-search-bar { max-width: 100%; }
       .hero-btns { justify-content: center; }
       .store-badges { justify-content: center; }
-      .phone-frame { width: 300px; max-width: 100%; }
+      .phone-frame { width: var(--nx-phone-w, 300px); max-width: 100%; }
       .steps-grid { grid-template-columns: 1fr; }
       .feat-grid { grid-template-columns: 1fr; }
       .stats-bar { grid-template-columns: 1fr; padding: 32px 24px; gap: 28px; }

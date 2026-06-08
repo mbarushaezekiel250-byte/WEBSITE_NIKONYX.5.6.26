@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="assets/nx-guide.css"/>
 <link rel="stylesheet" href="assets/nx-home-dashboard.css"/>
 <link rel="stylesheet" href="assets/nx-calendar-screen.css"/>
+<link rel="stylesheet" href="assets/nx-phone-shell.css"/>
+<link rel="stylesheet" href="assets/nx-showcase.css"/>
 <style>
 /* ═══════════════════════════════════════════
    RESET
@@ -268,36 +270,8 @@ body::after{
 .welcome-dots button.active{background:var(--gold);transform:scale(1.15)}
 .welcome-dots button:hover{background:rgba(200,168,64,0.65)}
 
-.phone{
-  width:300px;
-  background:var(--bg3);
-  border:1.5px solid var(--blue);
-  border-radius:44px;
-  padding:12px 9px;
-  box-shadow:
-    7px 7px 0 var(--gold),
-    0 0 26px rgba(59,130,246,0.3),
-    0 44px 80px rgba(0,0,0,0.55);
-  animation:tiltFloat 6s ease-in-out infinite;
-}
-@keyframes tiltFloat{
-  0%,100%{transform:rotate(-4deg) translateY(0px)}
-  50%    {transform:rotate(-4deg) translateY(-11px)}
-}
-
-.p-notch{width:76px;height:18px;background:#000;border-radius:0 0 11px 11px;margin:0 auto 6px}
-.p-screen{background:#fff;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;min-height:620px;position:relative}
-
-.p-carousel{position:relative;flex:1;min-height:620px;width:100%}
-.p-slide{
-  position:absolute;inset:0;
-  opacity:0;visibility:hidden;
-  transition:opacity .65s ease;
-  display:flex;flex-direction:column;
-  overflow:hidden;background:#fff;
-}
-.p-slide.active{opacity:1;visibility:visible;z-index:1}
-.p-slide--img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+/* phone shell → assets/nx-phone-shell.css */
+.p-slide{transition:opacity .65s ease}
 
 .p-status{background:#050D1F;display:flex;justify-content:space-between;align-items:center;padding:7px 14px 5px;font-size:10px;font-weight:700;color:#fff;font-family:var(--font)}
 .p-sr{display:flex;align-items:center;gap:5px;font-size:9px}
@@ -672,7 +646,7 @@ body::after{
 .feats-hd .s-sub{margin:0 auto;max-width:520px}
 
 .feats-showcase{
-  display:grid;grid-template-columns:1fr 300px;
+  display:grid;grid-template-columns:1fr var(--nx-phone-col-w, var(--nx-phone-w));
   gap:44px;align-items:start;max-width:1180px;margin:0 auto;
 }
 
@@ -705,22 +679,7 @@ body::after{
   display:flex;flex-direction:column;align-items:center;
   position:sticky;top:96px;
 }
-.phone--feat{
-  width:272px;
-  animation:none;
-  transform:rotate(-3deg);
-  box-shadow:6px 6px 0 var(--gold),0 0 22px rgba(59,130,246,0.28),0 32px 60px rgba(0,0,0,0.4);
-}
-.phone--feat .p-screen{min-height:500px}
-.fp-carousel{position:relative;flex:1;min-height:500px;width:100%}
-.fp-slide{
-  position:absolute;inset:0;
-  opacity:0;visibility:hidden;
-  transition:opacity .45s ease;
-  overflow:hidden;background:#fff;
-}
-.fp-slide.active{opacity:1;visibility:visible;z-index:1}
-.fp-slide--img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.phone--feat.phone--static{transform:rotate(-3deg)}
 
 .fp-demo-video{
   width:100%;height:100%;object-fit:cover;object-position:top center;
@@ -934,7 +893,6 @@ footer{
 .soc--facebook{background:#1877F2}
 .soc--whatsapp{background:#25D366}
 
-@media(max-width:1120px){ .phone{width:280px} }
 
 @media(max-width:1024px){
   .steps{grid-template-columns:1fr 1fr}
@@ -989,7 +947,6 @@ footer{
 }
 
 @media(max-width:480px){
-  .phone{width:230px}
   .hero-h1{letter-spacing:-1.5px}
 }
 </style>
@@ -1067,7 +1024,7 @@ footer{
 
     <div class="phone-col welcome-screen">
       <p class="welcome-tag">Welcoming Screen</p>
-      <div class="phone">
+      <div class="phone phone--float">
         <div class="p-notch"></div>
         <div class="p-screen">
           <div class="p-carousel" id="phoneCarousel" aria-label="App welcoming screen preview">
@@ -1352,7 +1309,170 @@ footer{
       <div class="step-n">03</div>
       <div class="step-ico">&#10024;</div>
       <h3>Get AI Suggestions</h3>
-      <p>Ask NX for any occasion — wedding, work, date, casual. Claude AI picks the perfect outfit from your real wardrobe.</p>
+      <p>Ask NX for any occasion — wedding, work, date, casual. AI picks the perfect outfit from your real wardrobe.</p>
+    </div>
+  </div>
+</section>
+
+<div class="s-div"></div>
+
+<section class="nx-showcase nx-showcase--light" id="ai-stylist">
+  <div class="nx-showcase-row">
+    <div class="nx-showcase-copy reveal">
+      <div class="eyebrow">AI Stylist</div>
+      <h2 class="s-title">Outfits for Your Schedule, Weather &amp; Mood</h2>
+      <p class="s-sub">NX picks complete looks from your own wardrobe — then explains why they work. Personal color analysis shows which shades make you glow.</p>
+      <ul class="nx-showcase-list">
+        <li>Weather-aware recommendations for tomorrow and the week ahead</li>
+        <li>Chat to refine any look — &ldquo;Make it more formal&rdquo; or &ldquo;Add a layer&rdquo;</li>
+        <li>Seasonal color profile: Spring Bright, Summer Soft, and more</li>
+        <li>Save, edit, or swap pieces before you leave the house</li>
+      </ul>
+    </div>
+    <div class="nx-showcase-phones nx-showcase-phones--parallel reveal">
+      <div class="phone phone--parallel">
+        <div class="p-notch"></div>
+        <div class="p-screen nx-showcase-screen nx-ai-color-screen">
+          <div class="nx-color-close" aria-hidden="true">&#10005;</div>
+          <div class="nx-color-hd">
+            <h4>Spring Bright</h4>
+            <p>Vivid, fresh, and full of life</p>
+          </div>
+          <div class="nx-color-body">
+            <div class="nx-color-block">
+              <h5>Key Traits</h5>
+              <p>Clear, lively colours that match your natural glow. Vibrant with warmth — never muddy or grey.</p>
+            </div>
+            <div class="nx-color-block">
+              <h5>Best Colours</h5>
+              <div class="nx-color-swatches">
+                <i class="nx-sw--coral"></i><i class="nx-sw--aqua"></i><i class="nx-sw--peach"></i><i class="nx-sw--yellow"></i><i class="nx-sw--lime"></i>
+              </div>
+              <p>Coral, bright peach, aqua &amp; turquoise. Pair with warm ivory or soft gold neutrals.</p>
+            </div>
+          </div>
+          <div class="nx-ai-chat">
+            <span class="nx-ai-chat-plus" aria-hidden="true">+</span>
+            <span class="nx-ai-chat-ph">Ask more about your results</span>
+            <span class="nx-ai-chat-send" aria-hidden="true">&#8594;</span>
+          </div>
+        </div>
+      </div>
+      <div class="phone phone--parallel">
+        <div class="p-notch"></div>
+        <div class="p-screen nx-showcase-screen nx-ai-outfit-screen">
+          <div class="nx-ai-status"><span>9:14</span><span aria-hidden="true">&#9679;&#9679;&#9679;</span></div>
+          <div class="nx-ai-nav">
+            <span class="nx-ai-back" aria-hidden="true">&#8249;</span>
+            <span class="nx-ai-user">&#9729; Leo &#9662;</span>
+            <span class="nx-ai-nav-r" aria-hidden="true">&#9881; &#9776;</span>
+          </div>
+          <div class="nx-ai-ctx">
+            <div class="nx-ai-weather-line"><span aria-hidden="true">&#9728;</span><strong>16&deg;C / 22&deg;C</strong></div>
+            <div class="nx-ai-loc">12/11/2025 &middot; New York</div>
+            <p class="nx-ai-msg">I&rsquo;ll recommend an outfit for tomorrow! Since it&rsquo;ll be a bit chilly, it&rsquo;s better to wear a long sleeve or a short sleeve with a jacket.</p>
+          </div>
+          <div class="nx-ai-card">
+            <div class="nx-ai-outfit-grid">
+              <img src="assets/app-cap/outfit-streetwear.png" alt="Top"/>
+              <img src="assets/app-cap/outfit-work.png" alt="Trousers"/>
+              <img src="assets/app-cap/outfit-evening.png" alt="Jacket"/>
+              <img src="assets/app-cap/outfit-smart-casual.png" alt="Shoes"/>
+            </div>
+            <div class="nx-ai-actions">
+              <button type="button" class="nx-ai-dislike" aria-label="Dislike">&#128078;</button>
+              <button type="button" class="edit">Edit</button>
+              <button type="button" class="save">Save</button>
+            </div>
+          </div>
+          <div class="nx-ai-chat">
+            <span class="nx-ai-chat-plus" aria-hidden="true">+</span>
+            <span class="nx-ai-chat-ph">Make it more formal?</span>
+            <span class="nx-ai-chat-send" aria-hidden="true">&#8594;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="s-div"></div>
+
+<section class="nx-showcase nx-showcase--dark" id="trip-planner">
+  <div class="nx-showcase-row nx-showcase-row--flip">
+    <div class="nx-showcase-phones nx-showcase-phones--parallel reveal">
+      <div class="phone phone--parallel">
+        <div class="p-notch"></div>
+        <div class="p-screen nx-showcase-screen">
+          <div class="nx-trip-cal-hd">April 2025</div>
+          <div class="nx-trip-cal-grid">
+            <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+            <span class="day"></span><span class="day"></span><span class="day">1</span>
+            <span class="day has-outfit"><span class="day-num">2</span><img src="assets/app-cap/outfit-smart-casual.png" alt="Outfit Apr 2"/></span>
+            <span class="day">3</span>
+            <span class="day has-outfit"><span class="day-num">4</span><img src="assets/app-cap/outfit-work.png" alt="Outfit Apr 4"/></span>
+            <span class="day">5</span>
+            <span class="day has-outfit"><span class="day-num">6</span><img src="assets/app-cap/outfit-evening.png" alt="Outfit Apr 6"/></span>
+            <span class="day">7</span><span class="day">8</span>
+            <span class="day has-outfit"><span class="day-num">9</span><img src="assets/app-cap/outfit-party.png" alt="Outfit Apr 9"/></span>
+            <span class="day">10</span>
+            <span class="day has-outfit"><span class="day-num">11</span><img src="assets/app-cap/outfit-streetwear.png" alt="Outfit Apr 11"/></span>
+            <span class="day">12</span>
+            <span class="day">13</span>
+            <span class="day has-outfit"><span class="day-num">14</span><img src="assets/app-cap/outfit-city-chic.png" alt="Outfit Apr 14"/></span>
+            <span class="day">15</span><span class="day">16</span><span class="day">17</span>
+            <span class="day has-outfit"><span class="day-num">18</span><img src="assets/app-cap/outfit-minimalist.png" alt="Outfit Apr 18"/></span>
+            <span class="day">19</span>
+          </div>
+          <div class="nx-trip-stats">
+            <div class="nx-trip-stat"><strong>40</strong><span>OOTD</span></div>
+            <div class="nx-trip-stat"><strong>&#128084;</strong><span>Most worn</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone phone--parallel">
+        <div class="p-notch"></div>
+        <div class="p-screen nx-showcase-screen nx-trip-screen">
+          <div class="nx-trip-hero">
+            <div class="nx-trip-hero-nav"><span aria-hidden="true">&#8249;</span><span aria-hidden="true">&#8942;</span></div>
+            <h4>Berlin travel</h4>
+            <ul class="nx-trip-meta">
+              <li><span class="ico" aria-hidden="true">&#128197;</span> 25.12.29 &ndash; 25.12.30</li>
+              <li><span class="ico" aria-hidden="true">&#128205;</span> Berlin, Germany</li>
+              <li><span class="ico" aria-hidden="true">&#128196;</span> I&rsquo;m so excited!!</li>
+            </ul>
+          </div>
+          <div class="nx-trip-tabs">
+            <span class="on">Outfit 19</span><span>Item 99</span><span>Checklist</span>
+          </div>
+          <div class="nx-trip-day">
+            <div class="nx-trip-day-row">
+              <strong class="nx-trip-day-label">Day 1</strong>
+              <div class="nx-trip-day-info">
+                <div><span class="ico" aria-hidden="true">&#128197;</span> Dec 29 Sun</div>
+                <div><span class="ico" aria-hidden="true">&#128205;</span> Berlin</div>
+                <div><span class="ico" aria-hidden="true">&#9728;</span> 2 / 8&deg;C</div>
+              </div>
+            </div>
+            <div class="nx-trip-outfits">
+              <div class="nx-trip-outfit-card"><img src="assets/app-cap/outfit-streetwear.png" alt="Berlin day 1 outfit"/></div>
+              <div class="nx-trip-outfit-card"><img src="assets/app-cap/outfit-city-chic.png" alt="Berlin day 1 outfit"/></div>
+            </div>
+          </div>
+          <div class="nx-trip-add">Add outfit</div>
+        </div>
+      </div>
+    </div>
+    <div class="nx-showcase-copy reveal">
+      <div class="eyebrow">Plan Your Days &amp; Trips</div>
+      <h2 class="s-title">Track Outfits. Pack Smarter.</h2>
+      <p class="s-sub">Log what you wear each day, plan looks for upcoming events, and pack for trips with real destination weather — no overpacking, no morning dilemmas.</p>
+      <ul class="nx-showcase-list">
+        <li>Monthly calendar with outfit thumbnails on every day you wore a look</li>
+        <li>Trip boards with day-by-day outfit planning and packing checklists</li>
+        <li>Live weather for your destination — dress for 2&deg;C or 28&deg;C correctly</li>
+        <li>Private stats: OOTD count and most-worn pieces</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -1401,7 +1521,7 @@ footer{
   </div>
 
   <div class="feat-phone-col">
-    <div class="phone phone--feat" id="featPhone">
+    <div class="phone phone--feat phone--static" id="featPhone">
       <div class="p-notch"></div>
       <div class="p-screen">
         <div class="fp-carousel" id="featPhoneCarousel">
