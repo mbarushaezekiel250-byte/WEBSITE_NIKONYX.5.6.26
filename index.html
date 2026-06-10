@@ -663,32 +663,33 @@ body::after{
 
 .feat-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:0;border:1px solid var(--brd);border-radius:16px;overflow:hidden;
-  background:
-    linear-gradient(rgba(15,34,73,0.74) 0%, rgba(15,34,73,0.66) 100%),
-    url('assets/nikonyx-hero-bg.png') center center / cover no-repeat;
-  background-color:var(--card);
+  gap:10px;border-radius:20px;overflow:visible;
+  background:none;
+  padding:0;
 }
 
 .feat{
-  background:transparent;
-  border-right:1px solid var(--brd);
-  border-bottom:1px solid var(--brd);
-  padding:32px 26px;position:relative;
-  transition:background .25s,box-shadow .25s;
+  background:
+    linear-gradient(rgba(6,18,44,0.72) 0%, rgba(6,18,44,0.62) 100%),
+    url('assets/nikonyx-hero-bg.png') center center / cover no-repeat;
+  border-radius:16px;
+  border:1px solid rgba(59,130,246,0.35);
+  padding:36px 28px;position:relative;
+  transition:border-color .25s,box-shadow .25s;
   cursor:pointer;user-select:none;
+  box-shadow:0 0 18px rgba(59,130,246,0.08);
 }
-.feat:nth-child(3),.feat:nth-child(6){border-right:none}
-.feat:nth-child(4),.feat:nth-child(5),.feat:nth-child(6){border-bottom:none}
-.feat:hover{background:rgba(18,37,88,0.55)}
+.feat:hover{
+  border-color:rgba(59,130,246,0.7);
+  box-shadow:0 0 28px rgba(59,130,246,0.18);
+}
 .feat.active{
-  background:rgba(18,37,88,0.55);
-  box-shadow:inset 0 0 0 2px var(--gold);
+  border-color:var(--gold);
+  box-shadow:0 0 28px rgba(200,168,64,0.18),inset 0 0 0 1px var(--gold);
   z-index:1;
 }
 
-.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);opacity:0;transition:opacity .3s}
-.feat:hover::before,.feat.active::before{opacity:1}
+.feat::before{display:none}
 
 .feat-phone-col{
   display:flex;flex-direction:column;align-items:center;
@@ -820,8 +821,8 @@ body::after{
 .fi-p{background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.18)}
 .fi-e{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.18)}
 
-.feat h3{font-size:16px;font-weight:800;margin-bottom:10px;letter-spacing:-.2px}
-.feat p{font-size:13.5px;color:var(--t2);line-height:1.65;font-weight:300}
+.feat h3{font-size:22px;font-weight:800;margin-bottom:14px;letter-spacing:-.4px;line-height:1.2;color:#ffffff}
+.feat p{font-size:14px;color:rgba(255,255,255,0.88);line-height:1.68;font-weight:400}
 
 .stats{position:relative;z-index:1;padding:0 6% 90px;background:var(--bg2)}
 
@@ -847,7 +848,7 @@ body::after{
   margin-bottom:9px;letter-spacing:-2px;
 }
 .stat-n em{color:var(--gold);font-style:normal}
-.stat-lb{font-size:13px;color:var(--t3);font-weight:300;letter-spacing:.5px}
+.stat-lb{font-size:13px;color:#ffffff;font-weight:300;letter-spacing:.5px}
 
 .cta{position:relative;z-index:1;padding:0 6% 110px;background:var(--bg2)}
 
@@ -869,7 +870,7 @@ body::after{
   margin-bottom:14px;letter-spacing:-2px;
   position:relative;
 }
-.cta-box p{font-size:18px;color:var(--t2);margin-bottom:42px;position:relative;font-weight:300}
+.cta-box p{font-size:18px;color:#ffffff;margin-bottom:42px;position:relative;font-weight:300}
 
 footer{
   position:relative;z-index:1;
@@ -1216,9 +1217,9 @@ footer{
           </div>
           </div>
 
-          <div class="p-slide p-slide--img" data-welcome="AR Fitting Room"><img src="assets/phone-tryon.png" alt="AR Fitting Room"/></div>
-          <div class="p-slide p-slide--img" data-welcome="Wardrobe"><img src="assets/phone-wardrobe.png" alt="Wardrobe"/></div>
-          <div class="p-slide p-slide--img" data-welcome="Your Wardrobe"><img src="assets/phone-wardrobe-items.png" alt="Your Wardrobe"/></div>
+          <div class="p-slide p-slide--img" data-welcome="NX Style Assistant"><img src="assets/phone-tryon.png" alt="NX Style Assistant"/></div>
+          <div class="p-slide p-slide--img" data-welcome="Your Wardrobe"><img src="assets/phone-wardrobe.png" alt="Your Wardrobe"/></div>
+          <div class="p-slide p-slide--img" data-welcome="AR Fitting Room"><img src="assets/phone-wardrobe-items.png" alt="AR Fitting Room"/></div>
           <div class="p-slide p-slide--img" data-welcome="Style Feed"><img src="assets/phone-style-feed.png" alt="Style Feed"/></div>
           <div class="p-slide p-slide--img" data-welcome="My Outfits"><img src="assets/phone-outfits.png" alt="My Outfits"/></div>
           <div class="p-slide p-slide--img" data-welcome="Smart Shopping"><img src="assets/phone-shopping.png" alt="Smart Shopping"/></div>
@@ -1514,32 +1515,26 @@ footer{
   <div class="feats-showcase">
   <div class="feat-grid" id="featGrid">
     <div class="feat active" data-feat="ai" role="button" tabindex="0" aria-pressed="true">
-      <div class="feat-ico fi-b">&#129302;</div>
       <h3>AI Outfit Suggestions</h3>
       <p>Multi-agent AI recommends complete outfits for any occasion, drawing only from your real wardrobe.</p>
     </div>
     <div class="feat" data-feat="wardrobe" role="button" tabindex="0" aria-pressed="false">
-      <div class="feat-ico fi-s">&#128084;</div>
       <h3>Wardrobe Manager</h3>
       <p>Photograph your clothes and AI auto-categorises every item — colour, fabric, style tag, season — instantly.</p>
     </div>
     <div class="feat" data-feat="tryon" role="button" tabindex="0" aria-pressed="false">
-      <div class="feat-ico fi-g">&#129706;</div>
       <h3>Virtual Try-On</h3>
       <p>See how outfits look on your actual body using AI compositing. No fitting room, no guesswork needed.</p>
     </div>
     <div class="feat" data-feat="avatar" role="button" tabindex="0" aria-pressed="false">
-      <div class="feat-ico fi-p">&#11835;</div>
       <h3>3D Avatar Creation</h3>
       <p>360&deg; body scan builds your precise digital twin for accurate size recommendations and virtual clothes fitting.</p>
     </div>
     <div class="feat" data-feat="friends" role="button" tabindex="0" aria-pressed="false">
-      <div class="feat-ico fi-t">&#128101;</div>
       <h3>Friends Space and Social Media Sharing</h3>
       <p>Share looks, post outfits to the style feed, follow friends, and discover fashion inspiration from your community.</p>
     </div>
     <div class="feat" data-feat="calendar" role="button" tabindex="0" aria-pressed="false">
-      <div class="feat-ico fi-e">&#128197;</div>
       <h3>Calendar Planning</h3>
       <p>Pin outfits to future events. AI tracks what you have worn and keeps your style fresh — no repeated looks.</p>
     </div>
