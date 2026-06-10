@@ -615,28 +615,25 @@ body::after{
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:0;margin-top:56px;
   border:1px solid var(--brd);border-radius:16px;overflow:hidden;
+  background:
+    linear-gradient(rgba(15,34,73,0.74) 0%, rgba(15,34,73,0.66) 100%),
+    url('assets/nikonyx-hero-bg.png') center center / cover no-repeat;
+  background-color:var(--card);
 }
 
 .step{
-  background:var(--card);
+  background:transparent;
   padding:44px 32px;position:relative;
   transition:background .3s,transform .3s;
   border-right:1px solid var(--brd);
 }
 .step:last-child{border-right:none}
-.step:hover{background:var(--card2)}
+.step:hover{background:rgba(18,37,88,0.55)}
 
 .step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gld-lt));opacity:0;transition:opacity .3s}
 .step:hover::before{opacity:1}
 
-.step-n{
-  font-size:64px;font-weight:800;
-  color:rgba(59,130,246,0.08);
-  position:absolute;top:14px;right:18px;
-  line-height:1;letter-spacing:-3px;pointer-events:none;
-  transition:color .3s;
-}
-.step:hover .step-n{color:rgba(200,168,64,0.1)}
+.step-n{display:none}
 
 .step-ico{
   width:54px;height:54px;border-radius:12px;
