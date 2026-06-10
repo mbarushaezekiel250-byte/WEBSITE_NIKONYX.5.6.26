@@ -825,7 +825,11 @@ body::after{
 .stats{position:relative;z-index:1;padding:0 6% 90px;background:var(--bg2)}
 
 .stats-wrap{
-  background:var(--card);border:1px solid var(--brd);
+  background:
+    linear-gradient(rgba(15,34,73,0.72) 0%, rgba(15,34,73,0.62) 100%),
+    url('assets/nikonyx-hero-bg.png') center center / cover no-repeat;
+  background-color:var(--card);
+  border:1px solid var(--brd);
   border-radius:16px;padding:56px 60px;
   display:grid;grid-template-columns:repeat(3,1fr);
   position:relative;overflow:hidden;
@@ -847,7 +851,11 @@ body::after{
 .cta{position:relative;z-index:1;padding:0 6% 110px;background:var(--bg2)}
 
 .cta-box{
-  background:var(--card);border:1px solid var(--brd);
+  background:
+    linear-gradient(rgba(15,34,73,0.70) 0%, rgba(15,34,73,0.60) 100%),
+    url('assets/nikonyx-hero-bg.png') center center / cover no-repeat;
+  background-color:var(--card);
+  border:1px solid var(--brd);
   border-radius:16px;padding:90px 56px;
   text-align:center;position:relative;overflow:hidden;
 }
