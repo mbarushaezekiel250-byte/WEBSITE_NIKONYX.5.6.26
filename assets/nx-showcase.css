@@ -4,7 +4,12 @@
   overflow:hidden;
 }
 .nx-showcase--light{background:var(--bg2)}
-.nx-showcase--dark{background:var(--bg)}
+.nx-showcase--dark{
+  background:
+    linear-gradient(rgba(13,31,64,0.55) 0%, rgba(13,31,64,0.45) 100%),
+    url('nikonyx-hero-bg.png') center center / cover fixed;
+  background-color:var(--bg);
+}
 .nx-showcase--light .s-title{color:var(--on-light)}
 .nx-showcase--light .s-sub{color:var(--on-light-muted)}
 .nx-showcase--light .nx-showcase-list li{color:var(--on-light-muted)}
@@ -132,33 +137,51 @@
   display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;
 }
 
-/* Trip planner — calendar */
+/* Trip planner — full-month calendar (all dates visible, compact outfits) */
+.nx-trip-cal-screen{
+  display:flex;flex-direction:column;overflow:hidden;
+}
 .nx-trip-cal-hd{
-  padding:14px;background:#fff;text-align:center;
-  font-size:13px;font-weight:800;color:#111;border-bottom:1px solid #eee;
+  flex-shrink:0;
+  padding:8px 10px 6px;background:#fff;text-align:center;
+  font-size:11px;font-weight:800;color:#111;border-bottom:1px solid #eee;
 }
 .nx-trip-cal-grid{
-  display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
-  padding:10px;font-size:9px;text-align:center;flex:1;
+  flex:1 1 auto;min-height:0;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  grid-template-rows:11px repeat(6,minmax(0,1fr));
+  gap:2px;
+  padding:4px 8px 6px;
+  font-size:7px;text-align:center;
+  overflow:hidden;
 }
-.nx-trip-cal-grid .dow{color:#aaa;font-weight:600;font-size:8px}
+.nx-trip-cal-grid .dow{
+  color:#aaa;font-weight:700;font-size:6px;line-height:11px;
+  display:flex;align-items:center;justify-content:center;
+}
 .nx-trip-cal-grid .day{
-  aspect-ratio:1;border-radius:6px;display:flex;align-items:center;
-  justify-content:center;color:#333;font-weight:600;position:relative;
-  font-size:10px;background:#f8fafc;
+  min-width:0;min-height:0;
+  border-radius:4px;display:flex;align-items:center;
+  justify-content:center;color:#555;font-weight:600;position:relative;
+  font-size:7px;background:#f8fafc;overflow:hidden;
 }
+.nx-trip-cal-grid .day:empty{background:transparent}
 .nx-trip-cal-grid .day.has-outfit{
-  padding:0;overflow:hidden;border:1px solid #e2e8f0;background:#fff;
+  padding:0;border:1px solid #e2e8f0;background:#fff;
 }
 .nx-trip-cal-grid .day.has-outfit img{
-  width:100%;height:100%;object-fit:cover;object-position:center top;
-  display:block;border-radius:5px;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-42%);
+  width:62%;height:62%;
+  object-fit:cover;object-position:center top;
+  display:block;border-radius:2px;
 }
 .nx-trip-cal-grid .day.has-outfit .day-num{
-  position:absolute;top:2px;left:3px;z-index:1;
-  font-size:7px;font-weight:800;color:#0D1F40;
-  background:rgba(255,255,255,0.92);border-radius:3px;padding:1px 4px;
-  line-height:1.2;box-shadow:0 1px 2px rgba(0,0,0,0.08);
+  position:absolute;top:1px;left:2px;z-index:1;
+  font-size:5px;font-weight:800;color:#0D1F40;
+  background:rgba(255,255,255,0.94);border-radius:2px;padding:0 2px;
+  line-height:1.25;box-shadow:0 1px 1px rgba(0,0,0,0.06);
 }
 .nx-showcase-phones--parallel{
   align-items:center;
@@ -166,15 +189,16 @@
   flex-wrap:nowrap;
 }
 .nx-trip-stats{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:6px;
-  padding:10px;background:#fafafa;border-top:1px solid #eee;
+  flex-shrink:0;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:4px;
+  padding:6px 8px 8px;background:#fafafa;border-top:1px solid #eee;
 }
 .nx-trip-stat{
-  text-align:center;padding:10px 6px;background:#fff;border-radius:10px;
+  text-align:center;padding:6px 4px;background:#fff;border-radius:8px;
   border:1px solid #eee;
 }
-.nx-trip-stat strong{display:block;font-size:14px;color:#111}
-.nx-trip-stat span{font-size:9px;color:#888}
+.nx-trip-stat strong{display:block;font-size:11px;color:#111;line-height:1.2}
+.nx-trip-stat span{font-size:7px;color:#888}
 
 /* Trip planner — Berlin travel screen (reference layout) */
 .nx-trip-screen{
